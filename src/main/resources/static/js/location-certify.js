@@ -10,6 +10,7 @@ let userMarkerImage;
 let lastKnownCoords = null;
 
 let loadingOverlay = null;
+let locationContentElement = null;
 let cafeLocationElement = null;
 let myLocationElement = null;
 let distanceInfoElement = null;
@@ -30,6 +31,10 @@ function showLoadingOverlay() {
     if (!overlay || overlay.classList.contains('is-visible')) {
         return;
     }
+    if (locationContentElement) {
+        locationContentElement.style.display = 'none';
+    }
+    overlay.style.display = 'flex';
     overlay.classList.add('is-visible');
     overlay.setAttribute('aria-hidden', 'false');
 }
@@ -41,6 +46,10 @@ function hideLoadingOverlay() {
     }
     overlay.classList.remove('is-visible');
     overlay.setAttribute('aria-hidden', 'true');
+    overlay.style.display = '';
+    if (locationContentElement) {
+        locationContentElement.style.display = '';
+    }
 }
 
 function initMap() {
@@ -186,5 +195,6 @@ document.addEventListener('DOMContentLoaded', () => {
     cafeLocationElement = document.getElementById('cafeLocation');
     myLocationElement = document.getElementById('myLocation');
     distanceInfoElement = document.getElementById('distanceInfo');
+    locationContentElement = document.getElementById('locationContent');
     loadKakao();
 });
