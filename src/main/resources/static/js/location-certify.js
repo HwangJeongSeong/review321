@@ -30,7 +30,13 @@ function getLoadingOverlay() {
 
 function showLoadingOverlay() {
     const overlay = getLoadingOverlay();
-    if (!overlay || overlay.classList.contains('is-visible')) {
+    if (!overlay) {
+        return;
+    }
+    if (locationContentElement) {
+        locationContentElement.style.display = 'none';
+    }
+    if (overlay.classList.contains('is-visible')) {
         return;
     }
     overlay.style.display = 'flex';
@@ -45,7 +51,10 @@ function hideLoadingOverlay() {
     }
     overlay.classList.remove('is-visible');
     overlay.setAttribute('aria-hidden', 'true');
-    overlay.style.display = '';
+    overlay.style.display = 'none';
+    if (locationContentElement) {
+        locationContentElement.style.display = '';
+    }
 }
 
 function initMap() {
