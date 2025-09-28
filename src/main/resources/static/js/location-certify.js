@@ -14,6 +14,8 @@ let locationContentElement = null;
 let cafeLocationElement = null;
 let myLocationElement = null;
 let distanceInfoElement = null;
+let hasCafeCoords = false;
+let hasUserCoords = false;
 
 const DISTANCE_THRESHOLD = 5000; // meters
 const STAY_DURATION = 5000; // milliseconds
@@ -31,9 +33,6 @@ function showLoadingOverlay() {
     if (!overlay || overlay.classList.contains('is-visible')) {
         return;
     }
-    if (locationContentElement) {
-        locationContentElement.style.display = 'none';
-    }
     overlay.style.display = 'flex';
     overlay.classList.add('is-visible');
     overlay.setAttribute('aria-hidden', 'false');
@@ -47,9 +46,6 @@ function hideLoadingOverlay() {
     overlay.classList.remove('is-visible');
     overlay.setAttribute('aria-hidden', 'true');
     overlay.style.display = '';
-    if (locationContentElement) {
-        locationContentElement.style.display = '';
-    }
 }
 
 function initMap() {
@@ -70,12 +66,16 @@ function initMap() {
                 cafeLat = parseFloat(first.y);
                 cafeLng = parseFloat(first.x);
                 const pos = new kakao.maps.LatLng(cafeLat, cafeLng);
+                hasCafeCoords = true;
                 new kakao.maps.Marker({map:map, position:pos, image: cafeMarkerImage});
                 map.setCenter(pos);
                 if (cafeLocationElement) {
                     cafeLocationElement.textContent = '카페 위치: ' + cafeAddress;
                 }
                 evaluateDistanceAndCertification();
+            } else {
+                hasCafeCoords = false;
+                hideLoadingOverlay();
             }
         });
     }
@@ -84,6 +84,7 @@ function initMap() {
         watchId = navigator.geolocation.watchPosition(updateLocation, handleError, {enableHighAccuracy:true});
     } else {
         document.getElementById('myLocation').textContent = '이 브라우저는 위치 정보를 지원하지 않습니다.';
+        hideLoadingOverlay();
     }
 }
 
@@ -101,6 +102,7 @@ function updateLocation(position) {
     }
 
     lastKnownCoords = { lat, lng };
+    hasUserCoords = true;
     evaluateDistanceAndCertification();
 }
 
@@ -109,10 +111,12 @@ function handleError(err) {
     if (myLocationElement) {
         myLocationElement.textContent = '위치를 가져올 수 없습니다.';
     }
+    hideLoadingOverlay();
 }
 
 function evaluateDistanceAndCertification() {
-    if (!lastKnownCoords || typeof cafeLat !== 'number' || typeof cafeLng !== 'number') {
+    if (!hasCafeCoords || !hasUserCoords || !lastKnownCoords || typeof cafeLat !== 'number' || typeof cafeLng !== 'number') {
+        showLoadingOverlay();
         return;
     }
 
@@ -196,5 +200,6 @@ document.addEventListener('DOMContentLoaded', () => {
     myLocationElement = document.getElementById('myLocation');
     distanceInfoElement = document.getElementById('distanceInfo');
     locationContentElement = document.getElementById('locationContent');
+    showLoadingOverlay();
     loadKakao();
 });
