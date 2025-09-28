@@ -1,0 +1,8 @@
+<!-- templates/fragments/alerts.html -->
+<div xmlns:th="http://www.thymeleaf.org" th:fragment="toast">
+    <!-- 성공 메시지 (RedirectAttributes.addFlashAttribute("message", "...")) -->
+    <div th:if="${message}" class="alert alert-success" role="alert" th:text="${message}">완료 메시지</div>
+
+    <!-- 실패/에러 메시지 (원하면 컨트롤러에서 errorMessage로 넣어주면 됨) -->
+    <div th:if="${errorMessage}" class="alert alert-danger" role="alert" th:text="${errorMessage}">에러 메시지</div>
+</div>

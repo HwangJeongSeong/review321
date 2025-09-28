@@ -1,0 +1,554 @@
+.content {
+  max-width: 1280px; /* 최대 너비 제한 주석!*/
+  margin: 1rem auto; /* 화면 중앙에 배치 주석!*/
+  font-family: "Noto Sans KR", sans-serif; /* 한글 친화 폰트 */
+}
+
+/* ===============================
+   키워드 영역
+   =============================== */
+.filter-panel {
+  border-radius: 30px; /* 컨테이너 모서리를 둥글게 */
+  background: linear-gradient(135deg, #F4ECE5, #FFF);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* 은은한 그림자 */
+  padding: 1.5rem; /* 내부 여백 */
+}
+
+/* ===============================
+   상단 영역 (제목 + '필터 없이 보기' 링크)
+   =============================== */
+.filter-panel__header {
+  display: flex; /* 가로 배치 */ /* 좌측: 제목, 우측: 링크 */
+  align-items: center; /* 세로 가운데 정렬 */
+  margin-bottom: 1rem; /* 아래쪽 여백 */
+}
+
+.filter-panel__title {
+  font-size: 1.2rem; /* 제목 크기 */
+  font-weight: 600; /* 두께 (semi-bold) */
+  color: #333333; /* 진한 회색 */
+  margin-bottom: 2rem; /* 아래쪽 여백 */
+}
+
+.filter-panel__selected {
+  display: flex;
+  flex-wrap: wrap; /* 여러 줄 배치 */
+  gap: 0.5rem; /* 칩 간격 */
+  margin-bottom: 1rem; /* 아래쪽 여백 */
+}
+
+.filter-group {
+  margin-bottom: 1.5rem; /* 그룹 간격 */
+}
+
+.filter-group__title {
+  font-size: 1rem; /* 소제목 크기 */
+  font-weight: 700; /* bold */
+  margin-bottom: 0.5rem; /* 리스트와 간격 */
+  color: #444; /* 중간 회색 */
+}
+
+.filter-list {
+  display: flex;
+  flex-wrap: wrap; /* 여러 줄로 배치 */
+  gap: 0.75rem 0.75rem; /* 세로/가로 간격 */
+  list-style: none; /* 불릿 제거 */
+  padding: 0; /* 기본 여백 제거 */
+  margin: 0; /* 기본 여백 제거 */
+}
+
+.filter-list input[type="checkbox"] {
+  display: none; /* 기본 체크박스 숨김 */
+}
+
+.list_label {
+  cursor: pointer; /* 클릭 가능 */
+  font-size: 0.95rem; /* 라벨 글자 크기 */
+  color: #555; /* 중간 톤 글자 */
+  padding: 0.3rem 0.7rem; /* 클릭 영역 여백 */
+  border-radius: 15px; /* 둥근 모서리 */
+  border: 1px solid #ccc; /* 기본 테두리 */
+  transition: all 0.2s; /* hover/active 부드러운 전환 */
+}
+
+.list_label:hover {
+  box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+  transform: translateY(-2px);
+  background-color: #f5f5f5; /* 연한 회색 배경 */
+    color: #333;              /* 글자 진하게 */
+    border-color: #bbb;       /* 테두리도 살짝 진하게 */
+}
+
+.filter-list label:has(input[type="checkbox"]:checked) {
+  border: 2px solid #e5734a; /* 체크되면 라벨 테두리 주황색 */
+  color: #e5734a; /* 글자색 주황 */
+  font-weight: 600; /* 글자 굵게 */
+}
+
+.filter-panel__foot {
+  display: flex;
+  justify-content: space-between; /* 좌측: 선택 개수 / 우측: 버튼 */
+  align-items: center;
+  border-top: 1px solid #eee; /* 위쪽 구분선 */
+  padding-top: 1rem; /* 구분선과 간격 */
+}
+
+.filter-btn {
+  padding: 0.6rem 1.2rem; /* 버튼 크기 */
+  font-size: 0.95rem;
+  border-radius: 12px;
+  border: 1px solid #ddd; /* 기본 테두리 */
+  cursor: pointer;
+  transition: background 0.2s;
+  background-color: #ffffff;
+}
+
+.filter-btn--pill {
+  border-radius: 20px; /* 동그란 pill */
+  padding: 0.4rem 1rem;
+  cursor: default; /* 비활성 느낌 */
+}
+/* 초기화 버튼 */
+.filter-btn--ghost {
+  color: #555; /* 무난한 회색 글자 */
+}
+
+/* 적용하기 버튼 */
+.filter-btn--primary {
+  border-color: #e5734a; /* 주황색 테두리 */
+  color: #e5734a; /* 글자색도 주황 */
+  font-weight: 600;
+}
+.filter-btn--primary:hover {
+  border-color: #a67b5b; /* hover 시 더 진한 주황 */
+  color: #4b3621;
+  background-color: #f9f6f2;
+}
+
+.disable-text {
+  color: #aaa; /* 기본: 흐린 회색 */
+  font-weight: normal;
+  transition: all 0.2s ease; /* 부드럽게 전환 */
+}
+
+.disable-text.active {
+  color: #d94d4d; /* 강조: 포인트 컬러 */
+  font-weight: 700; /* 두껍게 */
+  transform: scale(1.1); /* 살짝 커지는 효과 */
+}
+
+.count-label {
+  color: #aaa; /* 기본: 흐린 회색 */
+  font-weight: normal;
+  transition: all 0.2s ease; /* 부드럽게 전환 */
+}
+
+.count-label.active {
+  color: #d94d4d; /* 강조: 포인트 컬러 */
+  font-weight: 700; /* 두껍게 */
+  transform: scale(1.1); /* 살짝 커지는 효과 */
+}
+
+/* ===============================
+   검색필터 영역
+   =============================== */
+
+/* 접근성용 숨김 텍스트 */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* 바 전체 */
+.filter-bar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  /*padding: 8px 12px;
+     border: 1px solid #e5e5e5; border-radius: 6px;
+     background: #fff; font-size: 14px; color: #333;*/
+  background:#fff;
+  font-size: 14px;
+  border-radius: 30px; /* 컨테이너 모서리를 둥글게 */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* 은은한 그림자 */
+  padding: 1.5rem;
+  margin-top:15px;
+
+}
+
+/* 총 건수 */
+.filter-bar__count {
+  white-space: nowrap;
+  color: #666;
+}
+.filter-bar__count .count {
+  color: #2b6cb0;
+  font-weight: 600;
+}
+
+/* 라디오 그룹 */
+.filter-bar__radios {
+  display: flex;
+  gap: 14px;
+  border: 0;
+  padding: 0;
+  margin: 0;
+}
+.chkBox {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #666;
+  cursor: pointer;
+}
+.chkBox input[type="radio"] {
+  width: 14px;
+  height: 14px;
+  accent-color: #2b6cb0; /* 최신 브라우저 */
+}
+
+/* 정렬 셀렉트 */
+.filter-bar__sort select {
+  height: 32px;
+  padding: 0 28px 0 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: #fff;
+  appearance: none;
+  background-image: linear-gradient(45deg, transparent 50%, #666 50%),
+    linear-gradient(135deg, #666 50%, transparent 50%),
+    linear-gradient(#fff, #fff);
+  background-position: calc(100% - 16px) 50%, calc(100% - 10px) 50%, 100% 0;
+  background-size: 6px 6px, 6px 6px, 2.5em 100%;
+  background-repeat: no-repeat;
+}
+
+/* 검색창 */
+.filter-bar__search {
+  margin-left: auto; /* 오른쪽 정렬 */
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 0 6px 0 8px;
+  height: 32px;
+  background: #fff;
+}
+.filter-bar__search input {
+  border: 0;
+  outline: 0;
+  height: 100%;
+  min-width: 220px;
+}
+.filter-bar__search button {
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 1;
+}
+
+/* 반응형: 좁은 화면에서 줄바꿈 */
+@media (max-width: 720px) {
+  .filter-bar {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .filter-bar__search {
+    order: 3;
+    width: 100%;
+    margin-left: 0;
+  }
+  .filter-bar__search input {
+    min-width: 0;
+    width: 100%;
+  }
+}
+
+/* ===============================
+      리스트 섹션 영역
+      =============================== */
+.cafe-list {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 가로 4개 */
+  gap: 1.5rem; /* 카드 간격 */
+  margin: 2rem auto;
+  /*padding: 1rem;*/
+}
+
+.cafe-title-2{
+  font-size: 26px;
+  font-weight: 600;
+  color: #2c2c2c;
+  letter-spacing: 0.5px;
+  margin: 24px 0 12px;
+  position: relative;
+  padding-left: 10px;
+}
+
+.cafe-title-2::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 4px;
+  height: 1.2em;
+  background: #a64c4c; /* 포인트 색 */
+  border-radius: 2px;
+}
+
+.card {
+  background: linear-gradient(135deg, #F4ECE5, #FFF);
+  border-radius: 20px;
+  overflow: hidden;
+
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* 은은한 그림자 */
+  padding: 1rem; /* 내부 여백 */
+}
+.card:hover{
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(75,58,49,0.18);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+
+.card img {
+  width: 100%;
+  height: 300px;
+  border-radius: 20px;
+  object-fit: cover;
+}
+
+.card-body {
+  padding: 0.75rem;
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.cafe-title {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #333;
+  margin: 0;
+  flex: 1;                 /* 남는 공간을 다 차지 */
+  overflow: hidden;        /* 넘치면 숨기기 */
+  text-overflow: ellipsis; /* ... 처리 */
+  white-space: nowrap;     /* 줄바꿈 방지 */
+}
+
+.status {
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.2rem 0.6rem;
+  border-radius: 10px;
+  flex-shrink: 0;          /* 줄어들지 않음 */
+  min-width: 60px;         /* 고정 최소 폭 */
+  text-align: center;      /* 글자 가운데 정렬 */
+}
+
+.status.open {
+  background: #e6f7e6;
+  color: #2e7d32;
+}
+.status.closed {
+  background: #fbeaea;
+  color: #c62828;
+}
+
+.address,
+.time {
+  font-size: 0.85rem;
+  color: #666;
+  margin: 0.25rem 0;
+}
+
+.card-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  color: #555;
+  margin-top: 0.5rem;
+}
+
+.rating {
+  color: #f5a623;
+}
+.likes {
+  color: #e74c3c;
+}
+.views {
+  color: #444;
+}
+
+/* ===============================
+        페이징 영역
+=============================== */
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 1rem 0;
+}
+
+.page-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 28px;
+  border-radius: 50%;
+  text-decoration: none;
+  color: #999;
+  border: 1px solid transparent;
+}
+.page-btn:hover {
+  color: #555;
+}
+.page-btn.is-disabled {
+  pointer-events: none;
+  color: #ccc;
+  opacity: 0.6;
+}
+
+.page-list {
+  display: inline-flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.page-link {
+  display: inline-grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  text-decoration: none;
+  color: #6b7280; /* 비활성 숫자 (회색) */
+  transition: transform 0.15s ease, background-color 0.15s ease,
+    color 0.15s ease;
+}
+.page-link:hover {
+  color: #111;
+  transform: translateY(-1px);
+}
+
+.page-link.is-current {
+  background: #111;
+  color: #fff;
+  font-weight: 600;
+}
+
+.pagination a:focus-visible {
+  outline: 2px solid #111;
+  outline-offset: 2px;
+  border-radius: 999px;
+}
+
+/* ===============================
+        조회결과 없을 때
+=============================== */
+
+/* Empty state */
+.empty-state {
+  width: 1280px;
+  min-height: 40vh; /* 화면 가운데로 */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  text-align: center;
+  color: #666;
+  padding: 2rem 1rem;
+}
+.empty-state__img {
+  width: 220px;
+  height: auto;
+}
+.empty-state__title {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #444;
+}
+.empty-state__actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.25rem;
+}
+.empty-state__hint {
+  font-size: 0.9rem;
+  color: #8a8a8a;
+}
+
+/* 버튼 예시(프로젝트 스타일에 맞게 대체) */
+.btn {
+  padding: 0.5rem 0.875rem;
+  border-radius: 10px;
+  border: 1px solid #e5e5e5;
+}
+.btn-primary {
+  background: #ffb86b;
+  border-color: #ffb86b;
+  color: #fff;
+}
+.btn-ghost {
+  background: #fff;
+  color: #444;
+}
+.btn:hover {
+  filter: brightness(0.98);
+}
+
+/* ===============================
+        필터칩 부분
+=============================== */
+
+.selected-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 1rem 0;
+}
+
+.selected-filters .chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  background: #fff;
+  border: 1px solid #f15a24; /* 포인트 컬러 */
+  color: #f15a24;
+  padding: 0.35rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: default;
+}
+
+.selected-filters .chip button {
+  background: none;
+  border: none;
+  font-size: 1rem;
+  line-height: 1;
+  cursor: pointer;
+  color: inherit;
+}

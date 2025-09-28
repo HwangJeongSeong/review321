@@ -1,0 +1,464 @@
+:root {
+  --container-max: 1280px;
+  --gap: 24px;
+  --radius: 30px;
+  --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* 은은한 그림자 */
+  --bd: 1px solid #e9ecef;
+  --bg: #fff;
+  --muted: #6b7280;
+  --chip: #f3f4f6;
+  --accent: #10b981;
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  font-family: system-ui, "Noto Sans KR", sans-serif;
+  color: #111827;
+  margin: 0 auto;
+}
+.container-1 {
+  max-width: var(--container-max);
+
+}
+
+.hero {
+  display: grid;
+  height : 450px;
+  grid-template-columns: 450px 1fr;
+  gap: var(--gap);
+  background: var(--bg);
+ /* border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: var(--gap);
+ overflow: hidden;*/
+ box-sizing: border-box;
+ margin-top:16px;
+}
+.hero__imgwrap {
+  border-radius: 20px;
+  box-shadow: var(--box-shadow);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #c0a89a;
+  height: 100%;
+  overflow:hidden;
+}
+
+.hero__imgwrap > .hero__img {
+    display: block;
+    width: 100%;
+    height:100%;
+    object-fit:cover;
+}
+
+
+.card {
+  background: linear-gradient(135deg, #F4ECE5, #FFF);
+  border: var(--bd);
+  border-radius: 20px;
+  box-shadow: var(--box-shadow);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.title {
+  display:inline-block;
+  font-size: 2rem;
+  font-weight: 800;
+}
+.title-2 {
+  font-size: 1.4rem;
+  font-weight: 800;
+  margin-bottom:0.5rem;
+}
+.subtitle {
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.status.open {
+  background: #e6f7e6;
+  color: #2e7d32;
+}
+.status.closed {
+  background: #fbeaea;
+  color: #c62828;
+}
+
+
+
+.stats {
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.stat {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  background: #fff;
+  border: var(--bd);
+  border-radius: 999px;
+  color: rgba(75,58,49,0.80); /* deep 70% */
+}
+.actions {
+  display: flex;
+  gap: 10px;
+}
+.btn {
+  border: var(--bd);
+  background: #fff;
+  border-radius: 999px;
+  padding: 10px 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.btn--save {
+  border-color: #d1fae5;
+  background: #ecfdf5;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.chips > div {
+  width:100%;
+  display: block;
+}
+.chip-kw {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.38rem 0.8rem;
+  border-radius: 999px;                 /* 알약 형태 */
+  background: #f7f5f1;                  /* 따뜻한 베이지 */
+  border: 1px solid #e6e1d9;
+  color: #555;
+  font-size: 0.9rem;
+  line-height: 1;
+  box-shadow: 0 1px 2px rgba(0,0,0,.05); /* 은은한 그림자 */
+  user-select: none;
+  transition: background .15s ease, border-color .15s ease, transform .04s ease;
+}
+
+.chip--accent {
+  background: #ecfdf5;
+  color: #065f46;
+}
+
+
+
+
+.gallery {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.thumb {
+  width: 160px;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 12px;
+  border: var(--bd);
+}
+
+@media (max-width: 1024px) {
+  .hero {
+    grid-template-columns: 1fr;
+  }
+  .hero__imgwrap {
+    height: 320px;
+  }
+  .info-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+/* ===============================
+   매장소개 섹션
+   =============================== */
+body {
+
+}
+
+h2, h3 {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+a {
+  color: #0066cc;
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+
+/* ===============================
+   매장 소개 영역
+   =============================== */
+.store {
+  margin: 2rem auto;
+  padding: 1.5rem;
+  border: 1px solid #eee;
+  border-radius: 30px;
+  background: #fff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* 은은한 그림자 */
+
+}
+
+.store__intro {
+  margin-bottom: 1.5rem;
+  font-size: 0.95rem;
+  color: #555;
+}
+
+.section-aside{
+    display: grid;
+    grid-template-columns: 1fr 400px; /* 왼쪽=소개, 오른쪽=메뉴 */
+    gap: 2rem;
+}
+
+
+
+/* ===============================
+   정보 그리드
+   =============================== */
+.info-grid {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 2rem 2rem;
+  margin: 0;
+  padding: 0px;
+  list-style: none;
+  margin-bottom : 0.8rem;
+}
+
+.info-grid__label {
+  display:inline-block;
+  font-weight: 600;
+  color: #444;
+  margin-bottom:0.5rem;
+}
+
+.info-grid__value {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  margin-bottom:1rem;
+}
+
+/* 상태 배지 */
+.badge {
+  display: inline-block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+}
+
+
+/* ===============================
+   키워드 칩
+   =============================== */
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.chip {
+  display: inline-block;
+  padding: 0.3rem 0.6rem;
+  font-size: 0.85rem;
+  border-radius: 16px;
+  background: #f5f5f5;
+  color: #555;
+  border: 1px solid #ddd;
+  transition: background 0.2s;
+}
+
+.chip:hover {
+  background: #eee;
+}
+
+.chip--ok {
+  background: #e6f7e6;
+  color: #2e7d32;
+  border-color: #b7e1b7;
+}
+
+.chip--warn {
+  background: #fff2e6;
+  color: #d35400;
+  border-color: #f5c89e;
+}
+
+
+/* ===============================
+    메뉴 섹션
+   =============================== */
+.menu-section {
+  background: #ffffff;
+  border: 1px solid #ece7e4;
+  border-radius: 12px;
+  padding: 16px;
+  width: 340px;
+ background: #FDFBF7
+}
+
+.menu-title {
+  margin: 0 0 12px;
+  font-size: 18px;
+  font-weight: 700;
+  color: #222;
+}
+
+.menu-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-height: 260px;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.menu-item {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: baseline;
+  gap: 8px;
+  padding: 2px 0;
+  border-bottom: 1px solid #f0f0f0; /* 줄로 구분 */
+}
+
+.menu-item:last-child {
+  border-bottom: none;
+}
+
+/* 메뉴 이름 */
+.menu-name {
+  font-size: 15px;
+  font-weight: 500;
+  color: #333;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* 가격 */
+.menu-price {
+  font-size: 15px;
+  font-weight: 600;
+  color: #444;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.menu-price.is-empty {
+  font-weight: 400;
+  color: #aaa;
+}
+
+
+ /*호버 시 글자 색상만 포인트*/
+.menu-item:hover .menu-name{
+  color: #a64c4c;
+}
+
+.map-title{
+  font-size: 2rem;
+  font-weight: 800;
+  color: #2c2c2c;
+  letter-spacing: 0.5px;
+  margin: 24px 0 12px;
+  position: relative;
+  padding-left: 10px;
+}
+
+
+.map-title::after{
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 4px;
+    height: 1.2em;
+    background: #9A887B; /* 포인트 색 */
+    border-radius: 2px;
+}
+
+
+
+/* 북마크 css 영역 */
+#likeBox{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  font-size:14px;
+  color:#444;
+  user-select:none;
+}
+
+/* 버튼(아이콘) – 네비/배너 톤과 어울리는 미니멀 스타일 */
+#likeBtn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:34px; height:34px;
+  background:transparent;
+  border:none;
+  border-radius:8px;
+  cursor:pointer;
+  color:#4b3a31;                 /* 기본 아이콘 색(비활성) */
+  transition:color .2s, background .2s, transform .08s;
+}
+#likeBtn:hover{
+  background:rgba(166,76,76,0.08); /* 아주 옅은 브릭톤 하이라이트 */
+  color:#a64c4c;
+}
+#likeBtn:active{ transform:scale(0.96); }
+#likeBtn:focus-visible{
+  outline:2px solid #a64c4c;
+  outline-offset:2px;
+}
+
+/* 아이콘 크기/색 */
+#activeBookmark, .label-liked i{
+  font-size:20px;
+  color:#4b3a31;             /* 북마크 ON 색 */
+  filter:drop-shadow(0 1px 0 rgba(0,0,0,.08));
+}
+#disableBookmarkIcon, .label-unliked i{
+  font-size:20px;
+  color:#777;                 /* 북마크 OFF 색 */
+}
+
+/* 텍스트/숫자 */
+#likeBox > span{ color:#555; }
+#likeCount{
+  font-weight:700;
+  color:#4b3a31;             /* 숫자 포인트 */
+  font-variant-numeric:tabular-nums; /* 자릿수 고정 */
+  margin-left:2px;
+}
+
+/* (옵션) 더 컴팩트하게 쓰고 싶을 때 */
+#likeBox.is-compact #likeBtn{ width:28px; height:28px; }
+#likeBox.is-compact #activeBookmark,
+#likeBox.is-compact #disableBookmarkIcon{ font-size:18px; }

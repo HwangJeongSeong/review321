@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html  layout:decorate="~{layout}" xmlns:th="http://www.thymeleaf.org">
+<div layout:fragment="content">
+<head>
+    <meta charset="UTF-8">
+    <title>사업자 회원가입</title>
+    <link rel="stylesheet" th:href="@{/css/business-signup.css}">
+
+
+</head>
+<body>
+
+<h2 class="mb-4 text-center">Business Signup</h2>
+
+<form th:action="@{/businessuser/register}"
+      method="post"
+      th:object="${form}"
+      onsubmit="return validateForm(event)">
+    <div th:if="${param.success}" class="alert alert-success">
+        가입이 완료되었습니다. 로그인해 주세요.
+    </div>
+
+    <div th:if="${param.error}" class="alert alert-danger" th:switch="${param.error}">
+        <span th:case="'businessNumberExists'">이미 등록된 사업자번호입니다.</span>
+        <span th:case="'usernameExists'">이미 사용 중인 아이디입니다.</span>
+        <span th:case="'emailExists'">이미 등록된 이메일입니다.</span>
+        <span th:case="'db'">입력값 또는 DB 제약조건 오류가 발생했습니다.</span>
+        <span th:case="*">처리 중 오류가 발생했습니다.</span>
+    </div>
+
+    <!-- CSRF 토큰 추가 -->
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
+    <!-- 아이디 -->
+    <div class="form-row">
+        <label for="username">아이디</label>
+        <input type="text" class="form-control" id="username" name="username" required>
+        <span class="validation-message text-danger hidden" id="usernameError">이미 사용 중</span>
+        <span class="validation-message text-success hidden" id="usernameSuccess">사용 가능</span>
+    </div>
+
+    <!-- 이메일 -->
+    <div class="form-row">
+        <label for="email">이메일</label>
+        <input type="email" class="form-control" id="email" name="email" required>
+        <span class="validation-message text-danger hidden" id="emailError">이미 사용 중</span>
+        <span class="validation-message text-success hidden" id="emailSuccess">사용 가능</span>
+    </div>
+
+    <!-- 닉네임 -->
+    <div class="form-row">
+        <label for="nickname">닉네임</label>
+        <input type="text" class="form-control" id="nickname" name="nickname" required>
+        <span class="validation-message text-danger" id="nicknameMessage">2~10자, 특수문자 제외</span>
+    </div>
+
+    <!-- 사업자명 -->
+    <div class="form-row">
+        <label for="companyName">상호명</label>
+        <input type="text" class="form-control" id="companyName" name="companyName" required>
+    </div>
+
+    <!-- 사업자등록번호 -->
+    <div class="form-row">
+        <label for="businessNumber">사업자등록번호</label>
+        <div style="display:flex; gap:8px; align-items:flex-start;">
+            <input type="text" class="form-control" id="businessNumber" name="businessNumber"
+                   placeholder="예: 123-45-67890" required>
+            <input type="button" id="corp_button" value="확 인" onclick="corp_chk();">
+        </div>
+
+        <span class="validation-message text-success hidden" id="businessNumberSuccess">확인 완료</span>
+    </div>
+
+    <!-- 대표자명 -->
+    <div class="form-row">
+        <label for="representativeName">대표자명</label>
+        <input type="text" class="form-control" id="representativeName" name="representativeName" required>
+    </div>
+
+    <!-- 실제 서버에 전송할 hidden input -->
+    <input type="hidden" id="phone" name="phone">
+
+    <!-- 휴대폰 번호 -->
+    <div class="form-row phonenum">
+        <label for="phone1">휴대폰 번호</label>
+        <div style="display: flex; gap: 10px;">
+            <input type="text" id="phone1" name="phone1" maxlength="3" pattern="\d{3}" required placeholder="010" class="form-control">
+            <input type="text" id="phone2" name="phone2" maxlength="4" pattern="\d{4}" required placeholder="1234" class="form-control">
+            <input type="text" id="phone3" name="phone3" maxlength="4" pattern="\d{4}" required placeholder="5678" class="form-control">
+        </div>
+    </div>
+
+    <div class="form-row">
+        <label for="zipCode">우편 번호</label>
+        <div class="col-sm-6 mb-3 mb-sm-0">
+            <input type="text" class="form-control form-control-user"
+                   id="zipCode" name="zipCode" placeholder="우편번호 검색" readonly onclick="sample4_execDaumPostcode()">
+        </div>
+    </div>
+    <div class="form-row">
+        <label for="streetAdr">도로명 주소</label>
+        <input type="text" class="form-control form-control-user" id="streetAdr" name="streetAdr" placeholder="도로명 주소" readonly>
+    </div>
+    <div class="form-row">
+        <label for="detailAdr">상세 주소</label>
+        <input type="text" class="form-control form-control-user" id="detailAdr" name="detailAdr" placeholder="예: 건물명, 층수 등" onclick="addrCheck()">
+    </div>
+
+
+
+
+
+
+
+    <!-- 비밀번호 -->
+    <div class="form-row">
+        <label for="password">비밀번호</label>
+        <input type="password" class="form-control" id="password" name="password" required>
+        <span class="validation-message text-danger" id="passwordError">8자 이상, 특수문자 포함</span>
+    </div>
+
+    <!-- 비밀번호 확인 -->
+    <div class="form-row">
+        <label for="passwordConfirm">비밀번호 확인</label>
+        <input type="password" class="form-control" id="passwordConfirm" name="passwordConfirm" required>
+        <span class="validation-message text-danger hidden" id="passwordConfirmError">비밀번호 불일치</span>
+    </div>
+
+    <button type="submit" class="btn btn-primary mt-3">회원가입</button>
+
+
+
+</form>
+
+<!-- 공통 알림 모달 -->
+<div class="modal fade" id="alertModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header"><h5 class="modal-title">알림</h5></div>
+            <div class="modal-body"><p id="alertMessage"></p></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">확인</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/js/business-signup.js" defer></script>
+<!-- 우편번호 daum api -->
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script>
+    function sample4_execDaumPostcode(){
+        new daum.Postcode({
+            oncomplete: function(data) {
+            	// 우편번호
+                $("#zipCode").val(data.zonecode);
+                // 도로명 및 지번주소
+                $("#streetAdr").val(data.roadAddress);
+            }
+        }).open();
+    }
+</script>
+<script type="text/javascript">
+    function addrCheck() {
+        if($("#zipCode").val() == '' && $("#streetAdr").val() == ''){
+            alert("우편번호를 클릭하여 주소를 검색해주세요.");
+            $("#zipCode").focus();
+        }
+    }
+</script>
+
+
+
+
+</body>
+</div>
+</html>

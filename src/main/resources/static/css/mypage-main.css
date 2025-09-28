@@ -1,0 +1,27 @@
+
+
+
+.container {
+    width: 80rem !important;
+    padding: 0 !important;
+}
+.main_con {
+display: flex;
+    gap: 20px;
+    margin-bottom: 56px;
+    margin-top: 24px;
+}
+
+
+.menu_text {
+display: block;
+width: 65%;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0,0,0,.06);
+  text-align: center;
+  align-content: center;
+  font-size: 24px;
+
+}
+

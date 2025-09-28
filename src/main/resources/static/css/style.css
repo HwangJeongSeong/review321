@@ -1,0 +1,35 @@
+.disabled {
+    pointer-events: none;
+    opacity: 0.5;
+    color: #999;
+}
+.active {
+    font-weight: bold;
+
+}
+a {
+    text-decoration: none;
+    color: #0073e6;
+}
+a:hover {
+}
+
+
+
+
+
+
+
+
+
+
+
+/* a) 순서 보장: .hidden을 .badge 뒤에 둔다 */
+
+.hidden { display: none !important; }
+
+
+
+
+
+/*임시코드 끝 */

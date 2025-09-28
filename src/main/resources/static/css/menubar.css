@@ -1,0 +1,134 @@
+/* =========================
+   MyPage Menubar Styles
+   ========================= */
+
+/* 전체 네비게이션 영역 */
+.menubar {
+  position: sticky;
+  top: 20px;
+  align-self: start;
+  height: 80vh;
+  width: 35%;
+}
+
+
+
+/* wrapper */
+.menubar .wrapper {
+  min-width: 260px;
+  height: 100%;
+}
+
+/* card 박스 */
+.menubar .card {
+  height: 100%;
+  border: 0px !important;
+  padding-right: 20px;
+    display: flex;          /* 추가 */
+    flex-direction: column; /* 추가 */
+}
+
+/* 상단 타이틀 */
+.menubar .card > header h1 {
+  margin: 0 0 8px 0;
+  font-size: 24px;
+  color: var(--brown);
+  margin-bottom: 60px;
+  margin-top: 1px;
+}
+
+/* 사용자 정보 영역 */
+.menubar .controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 4px;
+}
+
+.controls .user-info {
+  display: flex;
+  flex-direction: column; /* 닉네임과 회원타입을 위아래 배치 */
+  gap: 2px;
+}
+
+.menubar .controls span {
+  font-size: 16px;
+  width: max-content; /* 텍스트 길이만큼만 영역 */
+  color: black;
+
+}
+
+/* 버튼 공통 스타일 */
+.menubar button,
+.menubar a.btn {
+  all: unset;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  padding: 8px 12px;
+  text-decoration: none;
+  cursor: pointer;
+  color: black;
+  font-size: 12px;
+}
+
+
+
+
+
+/* outline brown */
+.menubar .btn-outline-brown {
+  width: 100%;
+  background: var(--cream);
+  color: var(--brown-600);
+}
+.menubar .btn-outline-brown:hover {
+  background: #efe8e4;
+}
+
+/* 북마크 섹션 */
+.menubar h3 {
+  font-size: 20px;
+  margin-top: 90px;
+  margin-bottom: 60px;
+  color: var(--brown-600);
+}
+
+.menubar .myBookmark {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 4px;
+
+
+}
+
+.menubar .myBookmark .bookmark_text {
+    font-weight: bold;
+}
+
+/* 버튼 묶음을 맨 아래로 밀기 */
+.menubar .business-actions {
+  margin-top: auto;       /* 추가 */
+}
+
+/* 맨 밑 CTA 버튼 */
+.menubar .cta-btn {
+  display: block;
+  width: 100%;
+  padding: 14px 0;
+  margin-top: auto; /* 맨 밑으로 밀기 */
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  text-align: center;
+  background: var(--cream);
+  color: var(--brown-600);
+  transition: all 0.2s ease;
+}
+
+.menubar .cta-btn:hover {
+  background: var(--brown-600);
+  color: #fff;
+}
+

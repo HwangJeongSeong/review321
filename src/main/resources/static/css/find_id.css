@@ -1,0 +1,126 @@
+       /* 전체 컨테이너 중앙 정렬 */
+          .container {
+                max-width: 600px; /* 폼 너비 제한 */
+                margin: 0 auto;   /* 화면 중앙 정렬 */
+                padding-top: 50px; /* 위쪽 여백 */
+                font-family: 'Noto Sans KR';
+                padding-left: 50px;
+                padding-right: 50px;
+            }
+
+          .my-3 {
+              border-radius: 20px;
+              box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+          }
+
+          .container.my-3 .show-id a {
+              text-decoration:none;
+              color: inherit;
+              width: 40%;
+              padding: 12px 24px;
+              margin-top: 5px;
+              border-radius: 12px;
+              background-color: #9A887B;
+              color: white;
+              border: none;
+              font-size: 16px;
+              letter-spacing: 0.1em;
+          }
+          .container .find-id-header-text {
+                  text-align: center;
+                  font-size: 26px;
+                  margin-bottom: 50px;
+                  letter-spacing: 0.4em;
+                  font-weight: bold;
+          }
+           /* email 필드 스타일 */
+          .email-box > .form-control-num {
+              width: 100%;
+              padding: 12px 10px;
+
+              border-radius: 12px;
+              border: 1px solid #ccc;
+              font-size: 16px;
+              letter-spacing: normal;
+          }
+
+          .email-box > .form-control-num::placeholder {
+              letter-spacing: 0.3em;
+              color: #ccc;
+          }
+
+          .email-box > .email-text {
+              font-size: 13px;
+              color: #5f5f5f;
+          }
+
+          button.btn-primary, button.btn-success {
+              width: 40%;
+              padding: 12px;
+              margin-bottom: 5px;
+              margin-top : 18px;
+              border-radius: 12px;
+              background-color: #9A887B;
+              color: white;
+              border: none;
+              font-size: 16px;
+              letter-spacing: 0.1em;
+          }
+
+          .btn-primary:hover, .btn-success:hover {
+              background-color: #55453C;
+          }
+
+          .input-with-clear {
+              position: relative;
+              display: inline-block;
+              width: 100%;
+          }
+
+          .input-with-clear input {
+              width: 100%;
+              padding-right: 30px; /* 버튼 공간 확보 */
+          }
+
+          .input-with-clear .clear-btn {
+              position: absolute;
+              right: 10px;
+              top: 50%;
+              transform: translateY(50%);
+              cursor: pointer;
+              font-size: 16px;
+              color: #888;
+              display: none;
+              line-height: 1;
+              pointer-events: auto;
+          }
+          #code + .clear-btn {
+              top: 50%;
+              transform: translateY(-60%);
+          }
+
+          /* 입력값이 있을 때만 버튼 표시 */
+          .input-with-clear input:not(:placeholder-shown) + .clear-btn {
+              display: block;
+          }
+
+          /* 인증 필드 스타일 */
+          /*input.form-control-num {
+              width: 100%;
+              padding: 12px 10px;
+              border-radius: 12px;
+              border: 1px solid #ccc;
+              font-size: 16px;
+              letter-spacing: normal;
+          }*/
+          input.form-control:last-child::placeholder {
+              letter-spacing: 0.1em;
+              color: #ccc;
+          }
+
+          .border {
+              margin-bottom: 25px;
+          }
+         .find-id-header-text .gap {
+            margin-top: 15px;
+         }

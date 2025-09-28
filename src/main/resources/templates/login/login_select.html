@@ -1,0 +1,94 @@
+<html layout:decorate="~{layout}">
+<div layout:fragment="content" class="container my-4">
+<!--    <link rel="stylesheet" th:href="@{/css/login_select.css}">-->
+    <head>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+    </head>
+
+    <style>
+        .container.my-4{
+         max-width: 800px; /* 폼 너비 제한 */
+         margin: 0 auto;   /* 화면 중앙 정렬 */
+         padding-top: 80px; /* 위쪽 여백 */
+         font-family: 'Noto Sans KR';
+         padding-left: 50px;
+         padding-right: 50px;
+        }
+        .my-4 {
+             border-radius: 20px;
+             margin: 0 10px;
+         }
+
+        .login-button-wrapper {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px;
+            border-radius: 20p
+            box-shadow: 0 4px 12px rgba(0x;, 0, 0, 0.1);
+
+        }
+
+        .login-button-wrapper > div {
+            display: flex;
+            flex-direction: column;
+            width : 100%;
+            text-align: center;
+            padding: 120px 0px;
+            margin: 0px 10px;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            background-color: rgba(173,146,99,0.1);
+            cursor: pointer;
+        }
+
+        .login-button-wrapper > div:hover{
+           background-color: #4B3A31;
+           color: white;
+        }
+
+        .login-button-wrapper > div:hover a {
+            color: white;
+        }
+
+        .fa-users,
+        .fa-building {
+            font-size: 80px;
+            margin-bottom: 20px;
+        }
+
+        .login-button-wrapper a {
+            color: black;
+            font-size: 24px;
+            font-weight: bold;
+        }
+    </style>
+<div class="login-select-container">
+
+    <div class="login-button-wrapper">
+        <div class="user-login-buttons" onclick="location.href='/user/login'">
+            <i class="fa-solid fa-users"></i>
+            <a th:href="@{/user/login}">User Login</a>
+        </div>
+        <div class="business-login-buttons" onclick="location.href='/business/login'">
+            <i class="fa-solid fa-building"></i>
+            <a th:href="@{/business/login}" >Business Login</a>
+        </div>
+    </div>
+
+
+
+    <!-- role mismatch 안내 메시지 -->
+<!--    <div th:if="${param.error}">-->
+<!--        <p th:switch="${param.error}">-->
+<!--                <span th:case="'businessOnUserPage'" class="text-danger">-->
+<!--                    사업자 계정은 <strong>사업자 로그인</strong> 페이지에서 로그인해주세요.-->
+<!--                </span>-->
+<!--            <span th:case="'userOnBusinessPage'" class="text-danger">-->
+<!--                    일반 회원은 <strong>일반 로그인</strong> 페이지에서 로그인해주세요.-->
+<!--                </span>-->
+<!--            <span th:case="*">아이디 또는 비밀번호가 일치하지 않습니다.</span>-->
+<!--        </p>-->
+<!--    </div>-->
+</div>
+</div>
+</html>

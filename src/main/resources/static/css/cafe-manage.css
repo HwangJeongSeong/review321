@@ -1,0 +1,226 @@
+/* =========================
+   Cafe Manage Page – Clean
+   ========================= */
+
+/* 공용 팔레트에서 파생(원본 변수는 그대로) */
+:root{
+  --cm-bg: #f7f7f7;
+  --cm-card-bg: #fff;
+  --cm-text: #1f2937;
+  --cm-muted: #6b7280;
+  --cm-border: #ececec;
+  --cm-shadow: 0 6px 18px rgba(0,0,0,.06);
+
+  --cm-accent: var(--brown, #6b4f3b);
+  --cm-accent-600: var(--brown-600, #5e4634);
+  --cm-cream: var(--cream, #f6efe9);
+
+  --cm-star: #f59e0b;
+}
+
+/* 페이지 기본 */
+body{
+  background: var(--cm-bg);
+  color: var(--cm-text);
+  -webkit-font-smoothing: antialiased;
+}
+.container {
+    margin-top: 24px;
+    margin-bottom: 56px;
+    width: 80rem;
+    padding: 0;
+}
+.g-container {
+    width: 80rem;
+}
+
+/* 네브바와 겹치면 페이지 래퍼에 추가 */
+.page--with-navbar{ padding-top: 80px; }
+
+/* ========== 헤더 카드 ========== */
+.g-container > .header{
+  display: flex;
+  flex-direction: column;
+  width:20%;
+}
+.container > .header .title{
+  margin: 0;
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: -.01em;
+}
+.container > .header .subtitle{
+  margin: 4px 0 0;
+  color: var(--cm-muted);
+  font-size: 13px;
+}
+.container > .header .badge{
+  display: inline-block;
+  margin-top: 8px;
+  padding: 4px 10px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #0b5f41;
+  background: #def7ec;
+  border-radius: 999px;
+}
+
+/* ========== 버튼 ========== */
+.btn{
+  all: unset;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--cm-accent);
+  color: #fff;
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 1px 0 rgba(0,0,0,.02);
+  transition: background .2s ease, transform .06s ease, box-shadow .2s ease;
+}
+.btn:hover{ background: var(--cm-accent-600); box-shadow: 0 8px 16px rgba(0,0,0,.12); color: white !important; }
+.btn:active{ transform: translateY(1px); }
+
+.btn.secondary{
+  background: #fff;
+  color: var(--cm-accent-600);
+  border: 1px solid var(--cm-border);
+}
+.btn.secondary:hover{ background: #f7f7f7; color: var(--cm-accent-600) !important; }
+
+a.btn{ text-decoration: none; }
+
+/* 포커스 접근성 */
+a.btn:focus, button.btn:focus{ outline: 2px solid #c7d2fe; outline-offset: 2px; }
+
+/* ========== 카드 공통 ========== */
+.card{
+  background: var(--cm-card-bg);
+  border: 1px solid var(--cm-border);
+  border-radius: 14px;
+  padding: 16px;
+  box-shadow: var(--cm-shadow);
+}
+.card > h3{
+  margin: 0 0 12px;
+  font-size: 16px;
+  font-weight: 800;
+}
+
+/* ========== 그리드 유틸 ========== */
+/* grid.css의 .grid는 그대로 사용. gap만 조정 */
+.grid{ gap: var(--grid-gap, 14px); }
+
+/* 3열 구성(좌:2fr, 우:1fr,1fr) */
+.grid-cols-3{ grid-template-columns: 2fr 1fr 1fr; width: 100%; margin-top: 0 !important; }
+@media (max-width: 1199.98px){ .grid-cols-3{ grid-template-columns: 1.5fr 1fr; } }
+@media (max-width: 767.98px){ .grid-cols-3{ grid-template-columns: 1fr; } }
+
+/* 섹션 간 간격 */
+.stats-area .card + .card,
+.lists-area .card + .card{ margin-top: 14px; }
+
+/* ========== 핵심 지표 박스 ========== */
+.stat-grid{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+@media (max-width: 767.98px){ .stat-grid{ grid-template-columns: 1fr 1fr; } }
+
+.stat{
+  background: #fafafa;
+  border: 1px solid var(--cm-border);
+  border-radius: 12px;
+  padding: 12px;
+}
+.stat .k{ color: var(--cm-muted); font-size: 12px; margin-bottom: 4px; }
+.stat .v{ font-weight: 800; font-size: 18px; }
+
+/* ========== 리스트/라인 ========== */
+.item{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px dashed var(--cm-border);
+}
+.item:last-child{ border-bottom: 0; }
+.muted{ color: #9ca3af; font-size: 12px; }
+.divider{ height: 1px; background: var(--cm-border); margin: 12px 0; }
+
+/* ========== 칩/상태 ========== */
+.chip{
+  display: inline-block;
+  padding: 4px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #4338ca;
+  background: #eef2ff;
+  border-radius: 999px;
+}
+.ok{ color: #0b5f41; background: #def7ec; font-size: 12px; font-weight: 800; padding: 4px 8px; border-radius: 999px; }
+.warn{ color: #92400e; background: #fef3c7; font-size: 12px; font-weight: 800; padding: 4px 8px; border-radius: 999px; }
+.star{ color: var(--cm-star); font-weight: 800; }
+
+/* ========== 갤러리 샘플(썸네일) ========== */
+.lists-area .card .gallery3{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+.lists-area .card .gallery3 > div{
+  background: #ddd;
+  aspect-ratio: 1/1;
+  border-radius: 12px;
+}
+@media (max-width: 767.98px){
+  .lists-area .card .gallery3{ grid-template-columns: repeat(2, 1fr); }
+}
+
+/* ========== 히어로 이미지 ========== */
+.hero__imgwrap{
+  width: 100%;
+  max-width: 720px;          /* 페이지 폭에 맞게 */
+  aspect-ratio: 16/9;        /* 안정적인 비율 */
+  overflow: hidden;
+  border-radius: 12px;
+  border: 1px solid var(--cm-border);
+  background: #f5f5f5;
+}
+.hero__img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* ========== 보조 유틸 ========== */
+.text-muted{ color: var(--cm-muted); }
+.w-100{ width: 100%; }
+.mt-8{ margin-top: 8px; }
+.mt-12{ margin-top: 12px; }
+.mt-16{ margin-top: 16px; }
+
+
+.lists-area {
+    margin-top: 16px;
+}
+
+
+.modal { position: fixed; inset: 0; z-index: 1000; }
+.modal__backdrop { position:absolute; inset:0; background:rgba(0,0,0,.4); }
+.modal__panel { position: relative; width: min(900px, 92vw); max-height: 86vh; overflow: auto;
+    background: #fff; margin: 6vh auto 0; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,.25); padding: 16px; }
+.modal__header { display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; }
+.modal__close { border:0; background:transparent; font-size:24px; line-height:1; cursor:pointer; }
+.menu-list .row { display:grid; grid-template-columns: 1fr 120px 1fr 80px; gap: 8px; align-items:center; padding:6px 0; border-bottom:1px solid #eee; }
+.menu-list .row .name { font-weight:700; }
+.menu-list .empty { padding: 12px 0; color:#777; }
+.menu-form label { display:block; font-size:12px; color:#666; margin-bottom:4px; }
+.btn.danger { background:#e23; color:#fff; }
+

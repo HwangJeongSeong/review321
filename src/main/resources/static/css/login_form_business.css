@@ -1,0 +1,133 @@
+         /* 전체 컨테이너 중앙 정렬 */
+            .container.my-4{
+                max-width: 600px; /* 폼 너비 제한 */
+                margin: 0 auto;   /* 화면 중앙 정렬 */
+                padding-top: 50px; /* 위쪽 여백 */
+                font-family: 'Noto Sans KR';
+                padding-left: 50px;
+                padding-right: 50px;
+            }
+             .my-4 {
+                border-radius: 20px;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+                margin: 0 10px;
+            }
+
+            /* 로그인 헤드 */
+            .container .login-header-text {
+                text-align: center;
+                font-size: 26px;
+                margin-bottom: 50px;
+                letter-spacing: 0.4em;
+                font-weight: bold;
+            }
+
+            /* input 필드 스타일 */
+            input.form-control-num {
+                width: 100%;
+                padding: 12px 10px;
+                border-radius: 12px;
+                border: 1px solid #ccc;
+                font-size: 16px;
+                letter-spacing: normal;
+            }
+
+            input.form-control-num::placeholder {
+                letter-spacing: 0.3em;
+                color: #ccc;
+            }
+
+             .input-with-clear {
+                position: relative;
+                display: inline-block;
+                width: 100%;
+            }
+
+            .input-with-clear input {
+                padding-right: 30px; /* 버튼 공간 확보 */
+                margin: 0;
+            }
+
+            .input-with-clear .clear-btn {
+                position: absolute;
+                right: 10px;
+                top: 50%;                /* 부모 높이 기준으로 */
+                transform: translateY(-50%); /* 정확히 수직 가운데 정렬 */
+                cursor: pointer;
+                font-size: 16px;         /* 버튼 크기 조절 */
+                color: #888;
+                display: none;
+                line-height: 1;
+            }
+
+            /* 입력값이 있을 때만 버튼 표시 */
+            .input-with-clear input:not(:placeholder-shown) + .clear-btn {
+                display: block;
+            }
+
+            .input-with-toggle {
+                position: relative;
+                display: inline-block;
+                width: 100%;
+            }
+
+            .input-with-toggle input {
+                width: 100%;
+                padding-right: 35px; /* 버튼 공간 확보 */
+            }
+
+            .input-with-toggle .toggle-btn {
+                position: absolute;
+                right: 10px;
+                top: 50%;                /* 부모 높이 기준으로 */
+                transform: translateY(-50%); /* 정확히 수직 가운데 정렬 */
+                cursor: pointer;
+                font-size: 18px;         /* 버튼 크기 조절 */
+                color: #888;
+                display: none;
+                line-height: 1;
+            }
+
+            /* 로그인 버튼 */
+            button.btn-primary {
+                width: 100%;
+                padding: 12px;
+                margin-bottom: 5px;
+                margin-top: 21px;
+                border-radius: 12px;
+                background-color: #9A887B;
+                color: white;/* 와이어프레임 회색 버튼 */
+                border: none;
+                font-size: 16px;
+                letter-spacing: 0.4em;
+            }
+
+            .or {
+                color: #bfbfbf;
+                font-size: 14px;
+                text-align: center;
+            }
+
+            button.btn-primary:hover {
+                background-color: #55453C;
+            }
+
+            /* 아이디/비밀번호 찾기, 회원가입 버튼 */
+            .find-wrap > a {
+                width: 32%;
+                margin-right: 2%;
+                margin-left: 2%;
+                margin-bottom: 10px;
+                font-size: 12px;
+                color: #5f5f5f;
+            }
+
+            div > a.btn:last-child {
+                margin-right: 0;
+            }
+
+            /* alert 스타일 */
+            .alert {
+                font-size: 12px;
+                margin-bottom: 10px;
+            }

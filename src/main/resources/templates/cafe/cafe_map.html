@@ -1,0 +1,54 @@
+<html layout:decorate="~{layout}">
+<div layout:fragment="content">
+  <h2 th:text="|${cafe.name} 위치|">카페 위치</h2>
+  <div style="margin-bottom:10px; display:flex; gap:8px">
+    <input id="address-input" type="text" th:value="${cafe.streeAdr}"
+           style="flex:1; padding:8px; border:1px solid var(--line); border-radius:4px"
+           placeholder="주소 검색" />
+    <button id="search-btn" type="button" class="btn">검색</button>
+  </div>
+
+  <div id="map" style="width:100%;height:70vh;"></div>
+
+  <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=8ed22f8047c9ec337686bbb083546da6&libraries=services"></script>
+  <script>
+    var container = document.getElementById('map');
+    var options = {
+      center: new kakao.maps.LatLng(37.5665, 126.9780), // 지도를 열 때 보일 좌표 (여기서는 서울 시청)
+      level: 3                                          // 확대 레벨(1~14)
+    };
+    var map = new kakao.maps.Map(container, options);
+    var marker = new kakao.maps.Marker({
+        map: map
+    });
+
+    var places = new kakao.maps.services.Places();
+
+    function searchAndDisplay() {
+        var keyword = document.getElementById('address-input').value;
+        if (!keyword) return;
+        places.keywordSearch(keyword, function(result, status) {
+            if (status === kakao.maps.services.Status.OK) {
+                var first = result[0];
+                var coords = new kakao.maps.LatLng(first.y, first.x);
+                map.setCenter(coords);
+                marker.setPosition(coords);
+            }
+        });
+    }
+
+    document.getElementById('search-btn').addEventListener('click', searchAndDisplay);
+    document.getElementById('address-input').addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') {
+            searchAndDisplay();
+        }
+    });
+
+    if (document.getElementById('address-input').value) {
+        searchAndDisplay();
+    }
+  </script>
+
+</div>
+</html>
+

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+
+<th:block layout:fragment="headExtra">
+  <meta charset="UTF-8"/>
+  <title th:text="|리뷰 수정 - ${review.cafe.name}|">리뷰 수정</title>
+  <link rel="stylesheet" th:href="@{/css/review-list.css}"/>
+  <link rel="stylesheet" th:href="@{/css/review-edit.css}"/>
+</th:block>
+
+<div layout:fragment="content" class="container mt-4 review-page">
+
+  <section class="card shadow-sm mb-3 review-section review-edit">
+    <div class="card-body">
+      <div class="review-edit__hero">
+        <div class="review-edit__hero-content">
+          <span class="summary-label review-edit__badge">리뷰 수정</span>
+          <h1 class="review-edit__title" th:text="|${review.cafe.name} 방문 후기를 다듬어보세요|">리뷰 수정</h1>
+          <p class="review-edit__subtitle">처음 남긴 감동은 유지하고, 더 알찬 정보로 채워보세요.</p>
+        </div>
+        <div class="review-edit__hero-meta">
+          <div class="review-edit__current-rating review-edit__hero-rating">
+            <span class="review-edit__hero-rating-icon" aria-hidden="true">★</span>
+            <div class="review-edit__hero-rating-text">
+              <span class="review-edit__current-label">현재 평점</span>
+              <span class="review-edit__current-value" th:text="${#numbers.formatDecimal(review.rating,1,1)}">4.0</span>
+            </div>
+          </div>
+          <a th:href="@{|/reviews/${review.id}|}" class="btn btn-outline-light review-edit__hero-link">원문 보기</a>
+        </div>
+      </div>
+
+
+      <div class="review-edit__main">
+        <form id="reviewEditForm"
+              th:action="@{/reviews/{id}(id=${review.id})}"
+              method="post"
+              enctype="multipart/form-data"
+              th:object="${form}"
+              class="needs-validation review-create__form review-edit__form" novalidate>
+          <input type="hidden" th:if="${_csrf}" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+
+          <fieldset class="review-create__rating review-edit__rating" aria-labelledby="reviewEditRatingLabel">
+            <legend id="reviewEditRatingLabel" class="form-label">총 만족도</legend>
+            <div class="rating-picker">
+              <div class="rating-picker__visual">
+                <div class="rating-picker__star-wrapper">
+                  <div class="rating-stars rating-stars--interactive"
+                       data-rating-display
+                       aria-hidden="true"
+                       th:style="'--rating:' + ${#numbers.formatDecimal(form.rating != null ? form.rating : review.rating, 1, 1)}"></div>
+                  <div class="rate rating-picker__choices"
+                       id="editRatingChoices"
+                       role="radiogroup"
+                       aria-label="별점 선택">
+                    <input type="radio" id="edit-rating10" th:field="*{rating}" value="5.0" title="5점" aria-label="5점" required>
+                    <label for="edit-rating10"></label>
+                    <input type="radio" id="edit-rating9" th:field="*{rating}" value="4.5" title="4.5점" aria-label="4.5점">
+                    <label class="half" for="edit-rating9"></label>
+                    <input type="radio" id="edit-rating8" th:field="*{rating}" value="4.0" title="4점" aria-label="4점">
+                    <label for="edit-rating8"></label>
+                    <input type="radio" id="edit-rating7" th:field="*{rating}" value="3.5" title="3.5점" aria-label="3.5점">
+                    <label class="half" for="edit-rating7"></label>
+                    <input type="radio" id="edit-rating6" th:field="*{rating}" value="3.0" title="3점" aria-label="3점">
+                    <label for="edit-rating6"></label>
+                    <input type="radio" id="edit-rating5" th:field="*{rating}" value="2.5" title="2.5점" aria-label="2.5점">
+                    <label class="half" for="edit-rating5"></label>
+                    <input type="radio" id="edit-rating4" th:field="*{rating}" value="2.0" title="2점" aria-label="2점">
+                    <label for="edit-rating4"></label>
+                    <input type="radio" id="edit-rating3" th:field="*{rating}" value="1.5" title="1.5점" aria-label="1.5점">
+                    <label class="half" for="edit-rating3"></label>
+                    <input type="radio" id="edit-rating2" th:field="*{rating}" value="1.0" title="1점" aria-label="1점">
+                    <label for="edit-rating2"></label>
+                    <input type="radio" id="edit-rating1" th:field="*{rating}" value="0.5" title="0.5점" aria-label="0.5점">
+                    <label class="half" for="edit-rating1"></label>
+                  </div>
+                </div>
+                <div class="rating-picker__value-group">
+                    <span class="rating-picker__value" id="editRatingValue"
+                          th:text="${#numbers.formatDecimal(form.rating != null ? form.rating : review.rating, 1, 1)}">0.0</span>
+                  <span class="rating-picker__value-caption">/ 5.0</span>
+                </div>
+              </div>
+            </div>
+            <p class="rating-picker__hint">별을 눌러 절반 단위로 평점을 조정할 수 있어요.</p>
+          </fieldset>
+
+          <div class="review-create__field review-edit__field">
+            <label class="form-label" for="content">리뷰 내용</label>
+            <textarea id="content"
+                      th:field="*{content}"
+                      class="form-control"
+                      minlength="5"
+                      maxlength="4000"
+                      rows="4"
+                      placeholder="이용 팁, 추천 메뉴, 분위기 등을 자유롭게 적어주세요." required></textarea>
+            <div id="contentCounter" class="review-edit__counter">0자 / 최소 5자</div>
+          </div>
+
+          <div class="review-create__footer review-edit__footer">
+            <div class="review-create__upload review-edit__upload">
+              <label class="form-label" for="editImages">사진 다시 첨부</label>
+              <input id="editImages"
+                     type="file"
+                     name="images"
+                     class="form-control"
+                     accept="image/*"
+                     multiple
+                     data-max-files="5">
+              <p class="upload-hint">최대 5장, 10MB 이하 이미지를 업로드할 수 있어요. 필요한 경우 기존 이미지를 삭제한 뒤 새 이미지를 추가해 주세요.</p>
+              <ul id="reviewEditFileList"
+                  class="review-edit__file-list"
+                  aria-live="polite"
+                  aria-label="선택한 새 이미지 목록"></ul>
+            </div>
+          </div>
+
+          <div class="review-edit__existing"
+               id="existingImageList"
+               th:if="${form.imageUrl != null && !form.imageUrl.isEmpty()}">
+            <div class="review-edit__existing-header">
+              <h2 class="review-edit__existing-title">등록된 이미지</h2>
+              <p class="review-edit__existing-hint">불필요한 이미지를 선택해서 삭제할 수 있어요.</p>
+            </div>
+            <div class="review-edit__existing-grid">
+              <div class="review-edit__existing-item" th:each="img : ${form.imageUrl}">
+                <input type="hidden" name="imageUrl" th:value="${img}"/>
+                <img th:src="${img}" alt="review image">
+                <button type="button" class="review-edit__existing-remove" aria-label="이미지 삭제"></button>
+              </div>
+            </div>
+          </div>
+        </form>
+
+        <div class="review-edit__actions" role="group" aria-label="리뷰 수정 액션">
+          <button class="btn btn-primary review-submit-btn" type="submit" form="reviewEditForm">수정 완료</button>
+          <form th:action="@{|/reviews/${review.id}/delete|}"
+                method="post"
+                class="review-edit__delete-form"
+                onsubmit="return confirm('정말 삭제하시겠습니까?');">
+            <input type="hidden" th:if="${_csrf}" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+            <button type="submit" class="btn btn-danger">리뷰 삭제</button>
+          </form>
+          <a th:href="@{|/reviews/${review.id}|}" class="btn btn-outline-secondary">취소</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<th:block layout:fragment="bodyEndExtra">
+  <script th:src="@{/js/review-edit.js}" defer></script>
+</th:block>
+
+<button type="button"
+        class="floating-back-btn"
+        onclick="window.history.back()">
+  <span class="visually-hidden">이전 페이지로 이동</span>
+  <span aria-hidden="true" class="floating-back-btn__icon">&#8592;</span>
+</button>
+
+</html>

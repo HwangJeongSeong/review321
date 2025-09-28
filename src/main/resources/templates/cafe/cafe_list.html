@@ -1,0 +1,190 @@
+<html layout:decorate="~{layout}" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <link rel="stylesheet" th:href="@{/css/cafe_list.css}">
+</head>
+
+<div class="content" layout:fragment="content">
+
+    <div sec:authorize="isAuthenticated()">
+        <!--        안녕하세요, <b sec:authentication="principal.nickname">사용자</b> 님!-->
+<!--        안녕하세요, <b th:text="${@securityService.getNickname()}">사용자</b> 님!-->
+    </div>
+
+<!--    <div sec:authorize="isAnonymous()">-->
+<!--        로그인하지 않은 상태입니다.-->
+<!--    </div>-->
+
+
+
+
+    <!-- 검색 + 정렬 폼 -->
+    <form th:action="@{/cafe/list}" id="filterForm" method="get" class="filter-form"></form>
+
+        <!-- 키워드 태그: 버튼 눌러야 제출 -->
+        <!-- 필터 영역 -->
+        <section class="filter-panel" aria-labelledby="filterTitle">
+            <!-- 상단: 제목 / 필터 없이 보기 -->
+            <header class="filter-panel__header">
+                <h2 id="filterTitle" class="filter-panel__title">원하시는 정보를 선택해주세요.</h2>
+            </header>
+
+            <!-- 선택된 태그 미리보기 (JS로 chip 추가) -->
+<!--            <div class="filter-panel__selected" aria-live="polite">-->
+<!--                &lt;!&ndash; 예: <span class="chip" data-key="meat">고기/구이</span> &ndash;&gt;-->
+<!--            </div>-->
+
+            <!-- 업종 -->
+            <div class="filter-group" th:each="entry : ${keywordsByType}">
+                <legend class="filter-group__title" th:text="${entry.key.typeName}">>키워드 타입</legend>
+                <ul class="filter-list">
+                    <li th:each="k : ${entry.value}" >
+                        <label th:classappend="${selectedKeys != null and #lists.contains(selectedKeys, k.id)} ? ' active' : null"
+                               class="list_label">
+                            <input type="checkbox" name="keyList" th:value="${k.id}" th:checked="${selectedKeys != null and #lists.contains(selectedKeys, k.id)}" form="filterForm" th:data-label="${k.name}">
+                            <span th:text="${k.name}">태그명</span>
+                        </label>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- 하단: 선택 수 / 초기화 / 적용 -->
+            <div class="filter-panel__foot">
+                <div id="disable-text">
+                    <div id="selectedFilters" class="selected-filters"></div>
+                </div>
+                <div>
+                    <button type="button" class="filter-btn filter-btn--ghost" form="filterForm" id="resetBtn">초기화</button>
+                    <button type="submit" class="filter-btn filter-btn--primary" form="filterForm">적용하기</button>
+                </div>
+            </div>
+        </section>
+
+    <!-- 필터 영역 -->
+    <div class="filter-bar" >
+        <!-- 총 건수 -->
+        <div class="filter-bar__count"><strong class="count" th:text="|${paging.totalElements}개 결과|">총 0개 결과</strong></div>
+
+        <!-- 라디오 필터 (그룹) -->
+        <fieldset class="filter-bar__radios">
+            <legend class="sr-only">상태 필터</legend>
+            <label class="chkBox">
+                <input type="checkbox" name="parking" value="true"
+                       th:checked="${parking != null and parking}"
+                       onchange="this.form.submit()" form="filterForm">
+                <span>주차가능</span>
+            </label>
+            <label class="chkBox">
+                <input type="checkbox" name="openNow" value="true"
+                       th:checked="${openNow != null and openNow}"
+                       onchange="this.form.submit()" form="filterForm">
+                <span>지금 영업중</span>
+            </label>
+        </fieldset>
+
+        <!-- 정렬 -->
+        <label class="filter-bar__sort">
+            <select name="sort" th:value="${sort}" form="filterForm" onchange="this.form.submit()">
+                <option value="createdAt" th:selected="${sort} == 'createdAt'">기본순</option>
+                <option value="name" th:selected="${sort} == 'name'">이름순</option>
+                <option value="hit" th:selected="${sort} == 'hit'">인기순</option>
+            </select>
+            <select name="dir" th:value="${dir}" form="filterForm" onchange="this.form.submit()">
+                <option value="DESC" th:selected="${#strings.equalsIgnoreCase(dir, 'DESC')}">최신순</option>
+                <option value="ASC" th:selected="${#strings.equalsIgnoreCase(dir, 'ASC')}">오래된순</option>
+            </select>
+        </label>
+
+        <!-- 검색 -->
+        <label class="filter-bar__search">
+            <span class="sr-only">검색어</span>
+            <input type="text" name="kw" placeholder="이름, 주소 검색" th:value="${kw}" form="filterForm" />
+            <label aria-label="검색">🔍</label>
+        </label>
+    </div>
+
+    <input type="hidden" name="size" th:value="${size}" form="filterForm">
+    <h2 class="cafe-title-2">이런 카페 어떠세요?</h2>
+
+    <section class="cafe-list">
+
+        <div class="card" th:each="cafeList : ${paging}">
+            <a th:href="@{|/cafe/detail/${cafeList.id}|}">
+                <img th:src="${imageMap[cafeList.id]} ?: '/images/DBimg.PNG'"
+                     loading="lazy" class="thumb-img" alt="카페 대표 이미지">
+            </a>
+
+            <div class="card-body">
+                <div class="card-header">
+                    <a class="cafe-title" th:href="@{|/cafe/detail/${cafeList.id}|}" th:text="${cafeList.name}">카페 이름</a>
+
+                    <span class="status"
+                          th:text="${cafeList.openNow == null ? '정보없음' : (cafeList.openNow ? '영업중' : '영업 마감')}"
+                          th:classappend="${cafeList.openNow == null ? ' unknown' : (cafeList.openNow ? ' open' : ' closed')}">상태 알 수 없음
+                    </span>
+                </div>
+                <p class="address"
+                   th:text="${cafeList.address1 != null ? cafeList.address1 : cafeList.streetAdr}">
+                </p>
+                <p class="time" th:if="${cafeList.openTime != null and cafeList.closeTime != null}"
+                   th:text="|${#temporals.format(cafeList.openTime,'HH시:mm분')} ~ ${#temporals.format(cafeList.closeTime,'HH시:mm분')}|"></p>
+                <div class="card-meta">
+                    <span class="rating" th:text="|⭐ ${ratingAvgMap[cafeList.id]}|">⭐ 4.5</span>
+                    <span class="likes" th:text="|♥ ${likeCountMap[cafeList.id]}| ?: 0">♥ 0</span>
+                    <span class="views" th:text="|👁${cafeList.hitCount}|">👁 1,234</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 결과가 없을 때 -->
+        <section class="empty-state" role="status" aria-live="polite"
+                 th:if="${paging == null || paging.empty}">
+            <h3 class="empty-state__title">힌트: 선택한 태그 수를 줄이거나, 검색어를 넣어보세요.!</h3>
+
+            <div class="empty-state__actions">
+                <!-- 필터 초기화(쿼리스트링 제거) -->
+                <a class="btn btn-primary" th:href="@{/cafe/list}">필터 초기화</a>
+                <!-- 뒤로가기(있으면) -->
+                <button type="button" class="btn btn-ghost" onclick="history.back()">뒤로</button>
+            </div>
+        </section>
+
+        <!-- 결과가 있을 때 -->
+        <ul class="cafe-list" th:if="${paging != null && !paging.empty}">
+            <!-- 카드 렌더링 -->
+        </ul>
+
+        <!-- 카드 반복 (총 12개) -->
+    </section>
+
+    <nav class="pagination" aria-label="페이지 이동" th:if="${paging != null and !paging.isEmpty()}">
+        <a class="page-btn" th:href="@{/cafe/list(page=0, size=${paging.size}, kw=${kw}, sort=${sort}, dir=${dir}, parking=${parking}, openNow=${openNow}, keyList=${selectedKeys})}" aria-label="첫 페이지">«</a>
+        <a class="page-btn" href="?page=0" aria-label="이전 페이지" th:if="${!paging.first}"
+           th:href="@{/cafe/list(page=${paging.number-1}, size=${paging.size}, kw=${kw}, sort=${sort}, dir=${dir}, parking=${parking}, openNow=${openNow}, keyList=${selectedKeys})}">이전
+        </a>
+
+
+
+        <ol class="page-list" role="list" >
+            <li th:each="p : ${#numbers.sequence(0, paging.totalPages-1)}"
+            th:if="${p >= paging.number-1 and p <= paging.number+1}">
+                <a class="page-link" aria-current="page" href="?page=1"
+                   th:if="${p != paging.number}"
+                   th:text="${p+1}"
+                   th:href="@{/cafe/list(page=${p}, size=${paging.size}, kw=${kw}, sort=${sort}, dir=${dir}, parking=${parking}, openNow=${openNow}, keyList=${selectedKeys})}">1
+                </a>
+                <span th:if="${p == paging.number}" th:text="${p+1}"></span>
+            </li>
+        </ol>
+
+        <a class="page-btn" href="?page=2" aria-label="다음 페이지" th:if="${!paging.last}"
+           th:href="@{/cafe/list(page=${paging.number+1}, size=${paging.size}, kw=${kw}, sort=${sort}, dir=${dir}, parking=${parking}, openNow=${openNow}, keyList=${selectedKeys})}">다음
+        </a>
+        <a class="page-btn"  th:href="@{/cafe/list(page=${paging.totalPages-1}, size=${paging.size}, kw=${kw}, sort=${sort}, dir=${dir}, parking=${parking}, openNow=${openNow}, keyList=${selectedKeys})}" aria-label="마지막 페이지">»</a>
+    </nav>
+
+
+    <script src="/js/filter-chip.js"></script>
+    <script src="/js/keyword-reset.js"></script>
+    <script src="/js/keyword-count.js"></script>
+</div>
+</html>

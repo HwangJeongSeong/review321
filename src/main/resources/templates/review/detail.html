@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+
+<th:block layout:fragment="headExtra">
+  <meta charset="UTF-8"/>
+  <title th:text="${review != null && review.cafe != null ? '리뷰 상세 - ' + review.cafe.name : '리뷰 상세'}">리뷰 상세</title>
+  <link rel="stylesheet" th:href="@{/css/review-detail.css}"/>
+</th:block>
+
+<div layout:fragment="content" class="container mt-4 review-page">
+
+  <article class="review-detail">
+    <header class="review-detail__hero">
+      <div class="hero-primary">
+        <span class="summary-label">리뷰 상세</span>
+        <h1 class="hero-title" th:text="${review.cafe != null ? review.cafe.name : '카페 리뷰'}">카페 리뷰</h1>
+        <p class="hero-caption">다녀온 사람들이 남긴 경험을 한눈에 확인해보세요.</p>
+      </div>
+      <div class="hero-rating">
+        <div class="rating-value">
+          <span class="rating-stars rating-stars--lg"
+                aria-hidden="true"
+                th:style="'--rating:' + ${#numbers.formatDecimal(review.rating,1,1)}"></span>
+          <span class="visually-hidden"
+                th:text="${'별점 ' + #numbers.formatDecimal(review.rating,1,1) + '점'}">별점</span>
+          <span class="rating-number" th:text="${#numbers.formatDecimal(review.rating,1,1)}">0.0</span>
+          <span class="rating-unit">/ 5.0</span>
+        </div>
+        <div class="review-card__likes review-like-box"
+             th:data-review-id="${review.id}"
+             th:data-liked="${liked}">
+          <button type="button"
+                  class="btn_like review-like-btn"
+                  th:classappend="${liked} ? ' on' : ''"
+                  data-label-like="좋아요"
+                  data-label-unlike="좋아요 취소"
+                  th:attr="aria-pressed=${liked}, aria-label=${liked} ? '좋아요 취소' : '좋아요'">
+            좋아요
+          </button>
+          <span class="review-like-count" th:text="${likeCount}">0</span>
+        </div>
+      </div>
+    </header>
+
+    <section class="review-detail__meta">
+      <div class="meta-row">
+        <span class="meta-label">작성자</span>
+        <span class="meta-value badge bg-info text-dark"
+              th:text="${review.user != null ? review.user.nickname : '알 수 없음'}">작성자</span>
+      </div>
+      <div class="meta-row">
+        <span class="meta-label">작성일</span>
+        <time class="meta-value" th:text="${#temporals.format(review.createdAt,'yyyy.MM.dd HH:mm')}">-</time>
+      </div>
+      <div class="meta-row">
+        <span class="meta-label">조회수</span>
+        <span class="meta-value" th:text="${review.viewCount}">0</span>
+      </div>
+    </section>
+
+    <section class="review-detail__content">
+      <h2>리뷰 내용</h2>
+      <p th:text="${review.content}">-</p>
+    </section>
+
+    <section class="review-detail__gallery"
+             th:if="${review.images != null and !review.images.isEmpty()}">
+      <div class="gallery-header">
+        <h2>첨부 이미지</h2>
+        <p class="gallery-caption">사진을 눌러 전체 이미지를 확인하세요.</p>
+      </div>
+      <div id="reviewImageSlider" class="review-image-slider">
+        <div class="slider-track">
+          <div class="slide" th:each="img : ${review.images}">
+            <div class="review-image-wrapper">
+              <img th:src="@{${img.imageUrl}}" alt="review image" class="review-image"/>
+            </div>
+          </div>
+        </div>
+        <button class="slider-btn prev-btn" type="button" aria-label="이전 이미지">&#10094;</button>
+        <button class="slider-btn next-btn" type="button" aria-label="다음 이미지">&#10095;</button>
+      </div>
+    </section>
+
+    <footer class="review-detail__actions">
+      <a class="btn btn-sm btn-primary" th:href="@{|/cafes/${review.cafe.id}/reviews|}">목록으로 돌아가기</a>
+      <a th:if="${canEdit}" class="btn btn-sm btn-secondary" th:href="@{|/reviews/${review.id}/edit|}">수정하기</a>
+      <form th:if="${canEdit}" th:action="@{|/reviews/${review.id}/delete|}" method="post" onsubmit="return confirm('정말 삭제하시겠습니까?');">
+        <input type="hidden" th:if="${_csrf}" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+        <button type="submit" class="btn btn-sm btn-danger">삭제하기</button>
+      </form>
+    </footer>
+  </article>
+
+
+
+  <!-- ★ 방어 스크립트: 빈/잘못된 script/link를 실시간 제거하고 원인 로그 출력 -->
+
+  <!-- ✅ 레이아웃 삽입 슬롯 없어도 직접 로드 -->
+  <script th:src="@{/js/review-image-slider.js}" defer></script>
+  <script th:src="@{/js/review-like.js}" defer></script>
+
+  <button type="button"
+          class="floating-back-btn"
+          onclick="window.history.back()">
+    <span class="visually-hidden">이전 페이지로 이동</span>
+    <span aria-hidden="true" class="floating-back-btn__icon">&#8592;</span>
+  </button>
+</div>
+
+</html>

@@ -1,0 +1,62 @@
+<!-- templates/mypage/mypage-menubar.html -->
+<div th:fragment="menubar" class="menubar">
+    <div class="wrapper">
+        <div class="card">
+            <header>
+                <h1>마이 페이지</h1>
+
+                <div class="controls">
+                    <div class="user-info">
+                        <span><strong th:text="${user.nickname}"></strong>님 안녕하세요</span>
+                        <span th:text="${#bools.isTrue(isBusiness) ? '사업자회원' : '일반회원'}">일반회원</span>
+                    </div>
+                    <div class="account_btn">
+                        <div>
+                            <!-- 계정관리도 재인증 경유 -->
+                            <a th:href="@{/mypage/verify_password(continue='/mypage/account')}">
+                                <button type="button">계정 관리 -></button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <div>
+                <h3>나만의 카페</h3>
+                <div class="myBookmark">
+                    <div class="bookmark_text">북마크</div>
+                    <a th:href="@{/mypage/verify_password(continue='/mypage/my/bookmark')}">
+                        <button type="button">자세히 보기 -></button>
+                    </a>
+                </div>
+            </div>
+
+            <!-- 사업자/일반회원 버튼 -->
+            <div class="business-actions">
+                <!-- 카페 관리하기 (카페 있음 → 재인증 → 관리) -->
+                <div class="mt-3" th:if="${#bools.isTrue(hasCafe)}">
+                    <a class="cta-btn"
+                       th:href="@{/mypage/verify_password(
+               continue=${(cafeId != null) ? '/mypage/cafe/manage?cafeId=' + cafeId : '/mypage/cafe/manage'}
+             )}">
+                        카페 관리하기
+                    </a>
+                </div>
+
+                <!-- 카페 등록하기 (사업자이지만 카페 없음 → 재인증 → 등록) -->
+                <div class="mt-2" th:if="${#bools.isTrue(isBusiness) and !#bools.isTrue(hasCafe)}">
+                    <a class="cta-btn" th:href="@{/mypage/verify_password(continue='/mypage/cafe/register')}">
+                        카페 등록하기
+                    </a>
+                </div>
+
+                <!-- 사업자 등록하기 (아직 사업자 아님) -->
+                <div class="mt-2" th:if="${#bools.isFalse(isBusiness)}">
+                    <a class="cta-btn" th:href="@{/businessuser/register}">
+                        사업자 등록하기
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

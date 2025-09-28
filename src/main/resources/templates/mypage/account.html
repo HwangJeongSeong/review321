@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ko" layout:decorate="~{layout}" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+
+    <meta charset="UTF-8">
+    <title>계정 관리</title>
+    <link rel="stylesheet" th:href="@{/css/menubar.css}">
+    <link rel="stylesheet" th:href="@{/css/account.css}">
+</head>
+<body>
+<div layout:fragment="content">
+<div class="main_con">
+    <div th:replace="~{mypage/mypage-menubar :: menubar}"></div>
+    <div class="account_card">
+        <header>
+            <h1>내 계정</h1>
+        </header>
+
+        <main>
+            <form th:action="@{/mypage/account/update}" method="post">
+                <p><strong class="account_text">아이디:</strong> <span th:text="${user.username}"></span></p>
+                <p>
+                    <strong class="account_text">회원가입일:</strong>
+                    <span th:if="${user.createDate != null}" th:text="${#temporals.format(user.createDate, 'yyyy-MM-dd')}"></span>
+                    <span th:if="${user.createDate == null}">정보 없음</span>
+                </p>
+
+                <p>
+                    <label><strong class="account_text">닉네임:</strong> <input type="text" name="nickname" th:value="${user.nickname}" /></label>
+                </p>
+                <p>
+                    <label><strong class="account_text">이메일:</strong> <input type="email" name="email" th:value="${user.email}" /></label>
+                </p>
+
+                <!-- 휴대폰 번호 표시 -->
+                <p>
+                    <strong class="account_text">휴대폰 번호:</strong>
+                    <span id="phoneDisplay"
+                          th:text="${(user != null)
+                   ? ((user.businessUser != null
+                        and !#strings.isEmpty(user.businessUser.representativePhone))
+                        ? user.businessUser.representativePhone
+                        : user.phone)
+                   : ''}">
+  </span>
+                    <button class="phone" id="openPhoneModal" type="button">수정</button>
+                </p>
+
+
+                <p class="border_bottom">
+                    <strong class="account_text">비밀번호 :</strong>
+                    <button class="Password" id="openPasswordModal" type="button" style="margin-top: 20px;">새 비밀번호 설정하기</button>
+
+                </p>
+
+
+                <button class="edit_save" type="submit">수정 저장</button>
+            </form>
+
+
+        </main>
+    </div>
+</div>
+
+
+
+
+
+
+
+    <!-- 비밀번호 변경 모달 -->
+    <div id="passwordModal" class="modal">
+        <div class="modal-content">
+            <h2>비밀번호 변경</h2>
+            <form id="passwordForm">
+                <input type="password" id="newPassword" placeholder="새 비밀번호" required>
+                <input type="password" id="newPasswordConfirm" placeholder="새 비밀번호 확인" required>
+                <div id="passwordMessage"></div>
+                <button type="button" id="updatePasswordBtn">저장</button>
+                <button type="button" id="closePasswordModal">닫기</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- 휴대폰 번호 변경 모달 -->
+    <div id="phoneModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5>휴대폰 번호 변경</h5>
+                <span id="closePhoneModal" class="close-btn">&times;</span>
+            </div>
+
+            <div class="modal-body phone-input-group">
+                <label>새 휴대폰 번호:</label>
+                <div class="phone-inputs">
+                    <input type="text" id="phone1" maxlength="3" class="phone-box" placeholder="010">
+                    -
+                    <input type="text" id="phone2" maxlength="4" class="phone-box" placeholder="1234">
+                    -
+                    <input type="text" id="phone3" maxlength="4" class="phone-box" placeholder="5678">
+                </div>
+                <!-- 서버로 보낼 합쳐진 값 -->
+                <input type="hidden" id="phone">
+            </div>
+
+            <div class="modal-footer">
+                <button id="updatePhoneBtn" type="button">수정</button>
+            </div>
+        </div>
+    </div>
+
+
+    <script th:src="@{/js/account.js}" defer></script>
+
+
+</div>
+
+
+</body>
+</html>
+

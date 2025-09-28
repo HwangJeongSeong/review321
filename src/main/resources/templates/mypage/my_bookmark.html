@@ -1,0 +1,38 @@
+<html lang="ko" layout:decorate="~{layout}" xmlns:th="http://www.thymeleaf.org">
+<div layout:fragment="content" class="container my-3">
+    <link rel="stylesheet" th:href="@{/css/menubar.css}">
+    <link rel="stylesheet" th:href="@{/css/my_bookmark.css}">
+
+<!--    <form th:action="@{/mypage/my/bookmark}" method="post">-->
+
+
+        <div class="main_con">
+            <div th:replace="~{mypage/mypage-menubar :: menubar}"></div>
+
+
+            <div class="bookmark_card">
+                <h3 class="bookmark_h3">내 북마크</h3>
+                <div th:if="${#lists.isEmpty(bookmark)}" >
+                    아직 북마크한 카페가 없습니다.
+                </div>
+
+                <ul th:if="${!#lists.isEmpty(bookmark)}">
+                    <li th:each="bm : ${bookmark}">
+                        <!--                   ?from=bookmark-->
+                        <!--                <a th:href="@{|/cafe/detail/${bm.cafe.id}|}"-->
+                        <a th:href="@{|/cafe/detail/${bm.cafe.id}?from=bookmark|}"
+                           th:text="${bm.cafe.name}">카페명</a>
+                        <form th:action="@{/mypage/my/bookmark/remove}" method="post" style="display:inline;">
+                            <input type="hidden" name="cafeId" th:value="${bm.cafe.id}"/>
+                            <button type="submit" class="btn-remove-bookmark">
+                                <i class="fa-solid fa-trash"></i>삭제
+                            </button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+        </div>
+<!--    </form>-->
+    <script src="/js/my-bookmark.js" defer></script>
+</div>
+</html>

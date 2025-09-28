@@ -1,0 +1,238 @@
+
+        /* 리뷰 전체 컨테이너 */
+
+        .review-summary {
+            border-radius: 20px;
+background-color: rgba(173,146,99,0.1);
+box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+padding-top: 30px;
+margin-bottom : 150px;
+margin-top : 50px;
+        }
+
+.review-summary .review-container {
+display: grid;
+grid-template-columns: repeat(2, minmax(200px, 38%));
+/* 2열 그리드 */
+justify-content: center;
+gap: 20px;
+/* 리뷰 아이템 간 간격 */
+margin-top: 16px;
+margin-bottom: 16px;
+position: relative;
+font-family: 'Noto Sans KR'
+}
+
+.review-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    width: 100%;
+    padding: 10px 20px 0; /* padding-top을 조절하여 위치 미세 조정 */
+    margin-top: 20px;
+}
+
+.filter-bar__sort {
+    position: static;
+    margin-top: 4px;
+}
+         .filter-bar__sort select {
+           background-color: #EEEAE6;
+           color: black;
+         padding: 8px;
+         border: 1px solid #bfbfbf;
+         border-radius: 4px;
+         font-size: 12px;
+         cursor: pointer;
+         }
+
+         /* 드롭다운 option 스타일 */
+         .filter-bar__sort select option {
+           background-color: #EEEAE6;
+           color: black;
+         }
+
+         .filter-bar__sort select option:hover {
+           background-color: #4B3A31;
+           color: white;
+         }
+
+         /* 선택된 option */
+         .filter-bar__sort select option:checked {
+           background-color: #4B3A31;
+           color: white;
+         }
+
+        .review-subject {
+        position: absolute;
+        left: 20px;
+        padding-bottom: 20px;
+        font-weight: bold;
+        color: #654429;
+        font-size: 20px;
+        /*z-index: 1;*/
+        margin: 0;
+        }
+
+/* 각 리뷰 아이템 */
+.review-item {
+background-color: #EEEAE6;
+border-radius: 8px;
+padding: 15px;
+display: flex;
+flex-direction: column;
+/*border: 1px solid rgba(0,0,0,0.1);*/
+justify-content: space-between;
+min-height: 100px;
+/*  max-height: 100px; 고정 높이 */
+box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
+box-sizing: border-box;
+overflow: hidden;
+}
+
+/* 리뷰 아이템 내부의 Flex 컨테이너 */
+.review-item-inner {
+display: flex;
+
+/*  flex-direction: row;가로 방향으로 배치 */
+
+/*   flex-grow: 1;부모(.review-item)의 남은 공간을 모두 차지 */
+align-items: flex-start;
+}
+
+/* 사진 플레이스홀더 */
+.review-image-placeholder {
+/* position: relative; */
+width: 100px;
+height: 100px;
+background-color: #D8A77F;
+background-image: url("/images/review_no_img.png");
+background-size: contain;
+border-radius: 4px;
+margin-right: 15px;
+flex-shrink: 0;
+border: 1px dashed #BF7F50;
+background-position: center;
+}
+
+/* 별점 */
+/*.review-item div span:first-child {
+/* 별점 */
+text-decoration: underline;
+text-underline-offset: 4px;
+display: block;
+font-weight: bold;
+color: #e68a00;
+font-size: 12px;
+margin-bottom: 4px;
+}*/
+
+/* 리뷰 내용 */
+.review-content {
+display: flex;
+flex-direction: column;
+flex-grow: 1;
+}
+
+.review-content-text {
+display: -webkit-box;
+-webkit-line-clamp: 3;
+-webkit-box-orient: vertical;*/
+font-size: 16px;
+line-height: 1.5;
+color: #333;
+word-break: break-word;
+overflow: hidden;
+text-overflow: ellipsis;
+flex-glow: 1;
+width: 100%;
+}
+
+/* 리뷰 아이템 내부의 상세 내용 (ex: 작성자, 날짜 등) */
+.review-item-details {
+font-size: 12px;
+color: #666;
+margin-top: 8px;
+}
+
+/* 더보기 버튼 */
+.more-reviews-button {
+display: block;
+margin-left: auto;
+width: 15%;
+padding: 10px 15px;
+border: none;
+border-radius: 8px;
+background-color: #9A887B;
+color: #fff;
+cursor: pointer;
+font-weight: bold;
+font-size: 16px;
+text-align: center;
+transition: background-color 0.3s ease;
+align-self: flex-end;
+}
+
+.more-reviews-button:hover {
+background-color: #55453C;
+}
+
+
+
+.review-summary {
+position: relative; /* 자식 요소 기준 */
+padding: 8px;       /* 여유 공간 */
+}
+
+.filter-bar__sort {
+position: absolute;
+top: -20px;        /* 상단에 고정 */
+right: 10px;      /* 오른쪽에 고정 */
+}
+
+/* 리뷰 카운트 및 평균 별점 */
+.review-summary p {
+margin-bottom: 8px;
+font-size: 12px;
+color: #555;
+}
+
+.review-summary p span {
+font-weight: bold;
+color: #333;
+}
+
+.review-stars {
+display: flex;
+/*justify-content: space-between;*/
+align-items: center;  /* 아이콘, 점수 수평 정렬 */
+flex-shrink: 0;
+margin-bottom: 5px;
+width: 100%;
+}
+
+.rating-group {
+display: flex; /* 별점과 점수를 한 줄에 표시 */
+align-items: center;
+gap: 4px;
+}
+
+.review-stars i {
+font-size: 16px;
+}
+.review-score {
+margin-left: 2px;
+font-size: 12px;
+color: #e68a00;
+}
+
+.review-likes-info {
+margin-left: 170px;
+display: flex;
+align-items: center;
+gap: 4px;
+}
+.review-likes-info i {
+font-size: 16px;
+}

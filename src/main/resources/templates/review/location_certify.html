@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+
+<th:block layout:fragment="headExtra">
+    <meta charset="UTF-8" />
+    <style>
+        :root {
+            color-scheme: light dark;
+        }
+        .floating-back-btn {
+            position: fixed;
+            right: 24px;
+            bottom: 24px;
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            border: none;
+            background: #6b4a2b;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.18);
+            cursor: pointer;
+            z-index: 1040;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .floating-back-btn:hover,
+        .floating-back-btn:focus {
+            transform: translateY(-2px);
+            box-shadow: 0 16px 32px rgba(0, 0, 0, 0.22);
+            outline: none;
+        }
+
+        .floating-back-btn__icon {
+            font-size: 1.5rem;
+            line-height: 1;
+        }
+
+        @media (max-width: 768px) {
+            .floating-back-btn {
+                right: 16px;
+                bottom: 16px;
+                width: 44px;
+                height: 44px;
+            }
+
+            .floating-back-btn__icon {
+                font-size: 1.25rem;
+            }
+        }
+
+        .loading-overlay {
+            --bg: #f6f6f6;
+            --fg: #1f1f1f;
+            --accent: #8b5e34;
+            --accent-2: #c9a989;
+            --glass: #ffffff;
+            --shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+            position: fixed;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            background: radial-gradient(1200px 800px at 70% -10%, rgba(0, 0, 0, 0.05), transparent), var(--bg);
+            color: var(--fg);
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transition: opacity 0.35s ease;
+            z-index: 2000;
+        }
+
+        .loading-overlay.is-visible {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .loading-overlay {
+                --bg: #0e0f11;
+                --fg: #f0f3f7;
+                --accent: #c08a53;
+                --accent-2: #7e5a3a;
+                --glass: #181a1e;
+                --shadow: 0 20px 60px rgba(0, 0, 0, 0.55);
+                background: radial-gradient(1200px 800px at 70% -10%, rgba(0, 0, 0, 0.35), transparent), var(--bg);
+            }
+        }
+
+        .loading-overlay .card {
+            width: min(520px, 92vw);
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.35));
+            background: color-mix(in srgb, var(--glass) 92%, transparent);
+            border-radius: 24px;
+            padding: 32px 28px 28px;
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(8px) saturate(120%);
+            -webkit-backdrop-filter: blur(8px) saturate(120%);
+            text-align: center;
+        }
+
+        .loading-overlay h1 {
+            font-size: 1.15rem;
+            font-weight: 700;
+            letter-spacing: 0.02em;
+            margin: 18px 0 6px;
+        }
+
+        .loading-overlay p {
+            margin: 0;
+            opacity: 0.8;
+            font-size: 0.95rem;
+        }
+
+        .loading-overlay .svg-wrap {
+            width: 240px;
+            margin: 8px auto 14px;
+            aspect-ratio: 1 / 1;
+        }
+
+        .loading-overlay svg {
+            width: 100%;
+            height: 100%;
+            overflow: visible;
+        }
+
+        @keyframes floaty {
+            0%,
+            100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-2px) rotate(-0.3deg);
+            }
+        }
+
+        @keyframes drip {
+            0% {
+                transform: translateY(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            80% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(75px);
+                opacity: 0;
+            }
+        }
+
+        @keyframes fillCup {
+            0% {
+                height: 0%;
+            }
+            60% {
+                height: 68%;
+            }
+            100% {
+                height: 72%;
+            }
+        }
+
+        @keyframes steamUp {
+            0% {
+                transform: translateY(0);
+                opacity: 0;
+            }
+            25% {
+                opacity: 0.6;
+            }
+            100% {
+                transform: translateY(-24px);
+                opacity: 0;
+            }
+        }
+
+        .loading-overlay .dripper {
+            animation: floaty 3.6s ease-in-out infinite;
+            transform-origin: 120px 76px;
+        }
+
+        .loading-overlay .drop {
+            animation: drip 1.7s ease-in infinite;
+            transform-origin: center;
+        }
+
+        .loading-overlay .drop.d2 {
+            animation-delay: 0.35s;
+        }
+
+        .loading-overlay .drop.d3 {
+            animation-delay: 0.8s;
+        }
+
+        .loading-overlay .cup-fill {
+            transform-origin: bottom;
+            animation: fillCup 4.5s ease-in-out infinite alternate;
+        }
+
+        .loading-overlay .steam path {
+            animation: steamUp 2.8s ease-in infinite;
+        }
+
+        .loading-overlay .steam path:nth-child(2) {
+            animation-delay: 0.6s;
+        }
+
+        .loading-overlay .steam path:nth-child(3) {
+            animation-delay: 1.2s;
+        }
+
+        .loading-overlay .progress {
+            width: 70%;
+            height: 6px;
+            margin: 16px auto 0;
+            background: color-mix(in srgb, var(--fg) 12%, transparent);
+            border-radius: 999px;
+            overflow: hidden;
+        }
+
+        .loading-overlay .bar {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent), var(--accent-2));
+            animation: barMove 3.6s ease-in-out infinite;
+        }
+
+        @keyframes barMove {
+            0% {
+                width: 0%;
+            }
+            60% {
+                width: 86%;
+            }
+            100% {
+                width: 92%;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .loading-overlay .dripper,
+            .loading-overlay .drop,
+            .loading-overlay .cup-fill,
+            .loading-overlay .steam path,
+            .loading-overlay .bar {
+                animation: none !important;
+            }
+        }
+    </style>
+</th:block>
+
+<div layout:fragment="content" class="container mt-4">
+    <h2 class="h5 mb-3" th:text="|${cafe.name} 위치 인증|">위치 인증</h2>
+    <div id="map" style="width:100%;height:70vh;"></div>
+    <div class="mt-2 text-muted small">
+        <p id="cafeLocation"></p>
+        <p id="myLocation"></p>
+        <p id="distanceInfo"></p>
+    </div>
+
+    <button type="button"
+            class="floating-back-btn"
+            onclick="window.history.back()">
+        <span class="visually-hidden">이전 페이지로 이동</span>
+        <span aria-hidden="true" class="floating-back-btn__icon">&#8592;</span>
+    </button>
+</div>
+
+<div id="loadingOverlay" class="loading-overlay" role="status" aria-live="polite" aria-hidden="true">
+    <div class="card">
+        <div class="svg-wrap" aria-hidden="true">
+            <svg viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg">
+                <ellipse cx="120" cy="208" rx="72" ry="10" fill="rgba(0,0,0,.12)" />
+                <g class="dripper">
+                    <rect x="40" y="58" width="160" height="6" rx="3" fill="var(--fg)" opacity=".2" />
+                    <rect x="118" y="64" width="4" height="44" rx="2" fill="var(--fg)" opacity=".3" />
+                    <g>
+                        <path d="M76 72 h88 a8 8 0 0 1 8 8 v4 a32 32 0 0 1 -32 32 h-40 a32 32 0 0 1 -32 -32 v-4 a8 8 0 0 1 8 -8 z" fill="var(--fg)" opacity=".12" />
+                        <path d="M80 84 h80" stroke="var(--fg)" stroke-width="2" opacity=".25" />
+                        <path d="M84 92 h72" stroke="var(--fg)" stroke-width="2" opacity=".18" />
+                        <path d="M164 88 q14 6 18 0 q4 -6 -6 -6" fill="none" stroke="var(--fg)" stroke-width="3" stroke-linecap="round" opacity=".35" />
+                    </g>
+                </g>
+                <g>
+                    <path d="M72 112 h96 v48 a24 24 0 0 1 -24 24 h-48 a24 24 0 0 1 -24 -24 v-48 z" fill="var(--fg)" opacity=".08" />
+                    <path d="M72 112 h96 v48 a24 24 0 0 1 -24 24 h-48 a24 24 0 0 1 -24 -24 v-48 z" fill="none" stroke="var(--fg)" stroke-width="3" opacity=".35" />
+                    <path d="M168 128 q20 0 20 16 t-20 16" fill="none" stroke="var(--fg)" stroke-width="4" opacity=".35" />
+                    <defs>
+                        <clipPath id="cup-clip">
+                            <path d="M72 112 h96 v48 a24 24 0 0 1 -24 24 h-48 a24 24 0 0 1 -24 -24 v-48 z" />
+                        </clipPath>
+                    </defs>
+                    <g clip-path="url(#cup-clip)">
+                        <rect class="cup-fill" x="72" y="184" width="96" height="0" fill="url(#coffeeGrad)" />
+                    </g>
+                    <defs>
+                        <linearGradient id="coffeeGrad" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="0%" stop-color="var(--accent)" />
+                            <stop offset="100%" stop-color="var(--accent-2)" />
+                        </linearGradient>
+                    </defs>
+                </g>
+                <circle class="drop d1" cx="120" cy="120" r="3.5" fill="var(--accent)" />
+                <circle class="drop d2" cx="120" cy="120" r="3" fill="var(--accent)" />
+                <circle class="drop d3" cx="120" cy="120" r="2.8" fill="var(--accent)" />
+                <g class="steam" stroke="var(--fg)" stroke-width="2" fill="none" opacity=".25">
+                    <path d="M98 112 c-4 -8 4 -12 2 -20" stroke-linecap="round" />
+                    <path d="M120 112 c-4 -8 4 -12 2 -20" stroke-linecap="round" />
+                    <path d="M142 112 c-4 -8 4 -12 2 -20" stroke-linecap="round" />
+                </g>
+            </svg>
+        </div>
+
+        <h1>핸드드립 중…</h1>
+        <p>따끈한 화면을 내리는 중이에요 ☕️</p>
+
+        <div class="progress" aria-hidden="true"><div class="bar"></div></div>
+    </div>
+</div>
+
+<th:block layout:fragment="bodyEndExtra">
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        var cafeAddress = [[${cafe.streetAdr}]];
+        var cafeId = [[${cafe.id}]];
+        /*]]>*/
+    </script>
+    <script
+            th:src="@{'https://dapi.kakao.com/v2/maps/sdk.js?appkey=8ed22f8047c9ec337686bbb083546da6&libraries=services&autoload=false'}"
+            defer></script>
+    <script th:src="@{/js/location-certify.js}" defer></script>
+</th:block>
+</html>

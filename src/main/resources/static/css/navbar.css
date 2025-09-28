@@ -1,0 +1,193 @@
+/* ================= variables ================= */
+:root{
+  --brown:#4b3a31;
+  --brown-600:#3c2f28;
+  --cream:#f6efe9;
+
+  /* 기준 그리드 */
+  --grid-columns: 12;
+  --grid-gap: 30px;          /* column gap */
+  --container-width: 80rem;  /* centered width (≈1280px) */
+}
+
+/* ----- 반응형 그리드 ----- */
+@media (max-width: 1279px){
+  :root{ --container-width: 72rem; --grid-gap: 24px; }
+}
+@media (max-width: 991px){
+  :root{ --container-width: 64rem; --grid-gap: 20px; }
+}
+@media (max-width: 767px){
+  :root{ --container-width: 100%; --grid-gap: 16px; }
+}
+
+/* ================= navbar base ================= */
+
+
+
+.navbar{
+  background:var(--brown) !important;
+  color:#fff;
+  height:80px;
+  border-bottom:1px solid rgba(255,255,255,.12) !important;
+  display: flex;
+  align-items:center;
+  position:sticky; top: 0;
+  z-index:1000;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.g-container {
+    width: 80rem;
+    display: flex;
+    margin: 0 auto;
+
+
+}
+
+.navbar > * {
+    height: 100%;
+}
+
+.navbar .nav-inner {
+    width: 100%;
+    min-height: 80px;
+        align-items: center;
+        display: flex;
+        justify-content: space-between !important;
+}
+/* 브랜드 */
+.navbar .navbar-brand{
+  grid-column:2;
+  justify-self:center;
+  display:inline-flex;
+  align-items:center;
+  line-height:1;
+  text-decoration:none;
+  color:var(--cream) !important;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+
+
+
+
+.navbar-collapse {
+    flex-grow: 0 !important;
+}
+
+
+/* 메뉴 리스트 */
+.navbar .navbar-nav{
+  display:flex; align-items:center; gap:12px;
+  margin:0; padding:0; list-style:none;
+
+}
+@media (max-width: 991px){
+  .navbar .navbar-nav{
+    flex-direction:column;
+    align-items:flex-start;
+    gap:4px;
+    padding:10px 0 12px;
+    border-top:1px solid rgba(255,255,255,.12);
+  }
+}
+
+
+.navbar .nav-item{ display:flex; align-items:center; }
+.navbar .nav-link,
+.navbar .nav-item button.nav-link{
+  color:#fff !important;
+  text-decoration:none;
+  cursor:pointer;
+  display:inline-block;
+}
+
+/* nav-link 좌우 패딩 제거 */
+.navbar.navbar-expand-lg .navbar-nav .nav-link,
+.navbar .navbar-nav .nav-link {
+  padding-right: 0 !important;
+  padding-left: 0 !important;
+  margin-right: 0 !important;
+  margin-left: 5px !important;
+}
+
+
+.navbar .nav-link:hover,
+.navbar .nav-item button.nav-link:hover{
+    color: #ffb347 !important;
+}
+
+/* 내부 로그아웃 폼 여백 제거 */
+.navbar form.m-0{ margin:0 !important; }
+
+/* 포커스 링 접근성 */
+.navbar a:focus,
+.navbar button:focus{
+  outline:2px solid rgba(255,255,255,.6);
+  outline-offset:2px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* 로고 크기만 통일 (SVG면 height만 주면 됨) */
+.brand-logo{
+  display:block;
+  width: 40px;
+  height: 40px;
+}
+
+/* 텍스트 색/두께 (팔레트에 맞춤) */
+.brand-text{  font-weight: 700;         /* 필요시 600/800 조절 */
+  letter-spacing: .02em;    /* 살짝 자간 */
+  -webkit-font-smoothing: antialiased;
+  font-size: 28px;
+  color: white;
+}
+
+.nav-back {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  margin-right: 8px;
+
+  background: transparent;   /* 배경 투명 */
+  color: #fff;               /* 아이콘 흰색 */
+  border: none;              /* 테두리 제거 */
+  border-radius: 8px;        /* 네비바 톤에 맞춰 살짝 둥글게 */
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.nav-back:hover {
+  background: rgba(255,255,255,0.12); /* 호버 시 은은한 하이라이트 */
+}
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 16px;
+  background: #4a3a32;
+  color: #fff;
+}
+.nav-left {
+  display: flex;
+  align-items: center;
+}

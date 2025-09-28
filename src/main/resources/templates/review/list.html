@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+
+<th:block layout:fragment="headExtra">
+  <meta charset="UTF-8"/>
+  <title th:text="|리뷰 목록 - ${cafe.name}|">리뷰 목록</title>
+  <link rel="stylesheet" th:href="@{/css/review-list.css}"/>
+</th:block>
+
+<div layout:fragment="content" class="container mt-4 review-page">
+
+  <!-- 상단 요약 -->
+  <section id="reviewsSummary"
+           th:fragment="summary"
+           class="review-summary"
+           th:attr="data-review-summary-url=@{|/cafes/${cafe.id}/reviews/summary|}">
+    <div class="review-summary__hero">
+      <div>
+        <span class="summary-label">카페 리뷰</span>
+        <h1 class="summary-title" th:text="${cafe.name}">카페명</h1>
+        <p class="summary-caption">방문자들의 생생한 후기로 분위기와 맛을 확인해 보세요.</p>
+      </div>
+      <div class="summary-action">
+        <a th:href="@{|/cafe/detail/${cafe.id}|}" class="btn btn-outline-secondary btn-sm">카페 상세</a>
+      </div>
+    </div>
+
+    <div class="review-summary__stats">
+      <div class="stat-card">
+        <div class="stat-label">평균 평점</div>
+        <div class="stat-value">
+          <div class="rating-stars rating-stars--lg"
+               aria-hidden="true"
+               th:style="'--rating:' + (${avgRating != null ? #numbers.formatDecimal(avgRating,1,1) : '0'})"></div>
+          <span class="visually-hidden"
+                th:text="${avgRating != null ? '평균 평점 ' + #numbers.formatDecimal(avgRating,1,1) + '점' : '평균 평점 정보가 없습니다.'}">
+            평균 평점 정보가 없습니다.
+          </span>
+          <span class="stat-number" th:text="${avgRating != null ? #numbers.formatDecimal(avgRating,1,1) : '0.0'}">0.0</span>
+          <span class="stat-unit">/ 5.0</span>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">작성된 리뷰</div>
+        <div class="stat-value">
+          <span class="stat-number" th:text="${reviewCount}">0</span>
+          <span class="stat-unit">개</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="review-summary__preview"
+         th:if="${topReviewImages != null and !#lists.isEmpty(topReviewImages)}"
+         data-visible="4">
+      <h2 class="preview-title">최근 올라온 리뷰 사진</h2>
+      <div class="review-image-slider">
+        <div class="slider-track">
+          <div class="slide" th:each="img : ${topReviewImages}">
+            <img th:src="@{${img}}" alt="top review image" class="review-image"/>
+          </div>
+        </div>
+        <button class="slider-btn prev-btn" type="button" aria-label="이전 이미지">&#10094;</button>
+        <button class="slider-btn next-btn" type="button" aria-label="다음 이미지">&#10095;</button>
+      </div>
+    </div>
+  </section>
+
+  <div id="certifyRequiredMessage" class="alert alert-warning d-none" role="alert">
+    위치 인증을 완료하면 리뷰를 작성할 수 있습니다.
+  </div>
+
+  <div id="certifySuccessMessage" class="alert alert-success d-none" role="alert">
+    위치 인증이 완료되었습니다. 이제 리뷰를 작성할 수 있습니다.
+  </div>
+
+  <!-- 작성 폼 -->
+  <section class="card shadow-sm mb-3 review-section review-create review-create--locked" sec:authorize="isAuthenticated()">
+    <div class="card-body">
+      <div class="review-create__intro">
+        <div>
+          <h2 class="section-title">리뷰 작성하기</h2>
+          <p class="section-caption">위치 인증을 마치고 경험을 생생하게 들려주세요.</p>
+        </div>
+        <div class="review-create__intro-actions">
+          <span class="review-create__badge">위치 인증 필수</span>
+          <a th:href="@{|/cafes/${cafe.id}/reviews/location|}" class="btn review-create__certify-btn">
+            <span class="review-create__certify-icon" aria-hidden="true">📍</span>
+            <span class="review-create__certify-label">위치 인증하기</span>
+          </a>
+        </div>
+      </div>
+      <form id="reviewCreateForm"
+            th:action="@{/cafes/{id}/reviews(id=${cafe.id})}"
+            th:data-cafe-id="${cafe.id}"
+            method="post"
+            enctype="multipart/form-data"
+            class="needs-validation review-create__form" novalidate>
+        <input th:if="${_csrf}" type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+
+        <fieldset class="review-create__rating" aria-labelledby="reviewCreateRatingLabel">
+          <legend id="reviewCreateRatingLabel" class="form-label">총 만족도</legend>
+          <div class="rating-picker">
+            <div class="rating-picker__visual">
+              <div class="rating-picker__star-wrapper">
+                <div class="rating-stars rating-stars--interactive"
+                     data-rating-display
+                     aria-hidden="true"
+                     style="--rating:4">
+                </div>
+                <div class="rate rating-picker__choices"
+                     id="createRatingChoices"
+                     role="radiogroup"
+                     aria-label="별점 선택">
+                  <input type="radio" id="create-rating10" name="rating" value="5.0" title="5점" aria-label="5점" required>
+                  <label for="create-rating10"></label>
+                  <input type="radio" id="create-rating9" name="rating" value="4.5" title="4.5점" aria-label="4.5점">
+                  <label class="half" for="create-rating9"></label>
+                  <input type="radio" id="create-rating8" name="rating" value="4.0" title="4점" aria-label="4점" checked>
+                  <label for="create-rating8"></label>
+                  <input type="radio" id="create-rating7" name="rating" value="3.5" title="3.5점" aria-label="3.5점">
+                  <label class="half" for="create-rating7"></label>
+                  <input type="radio" id="create-rating6" name="rating" value="3.0" title="3점" aria-label="3점">
+                  <label for="create-rating6"></label>
+                  <input type="radio" id="create-rating5" name="rating" value="2.5" title="2.5점" aria-label="2.5점">
+                  <label class="half" for="create-rating5"></label>
+                  <input type="radio" id="create-rating4" name="rating" value="2.0" title="2점" aria-label="2점">
+                  <label for="create-rating4"></label>
+                  <input type="radio" id="create-rating3" name="rating" value="1.5" title="1.5점" aria-label="1.5점">
+                  <label class="half" for="create-rating3"></label>
+                  <input type="radio" id="create-rating2" name="rating" value="1.0" title="1점" aria-label="1점">
+                  <label for="create-rating2"></label>
+                  <input type="radio" id="create-rating1" name="rating" value="0.5" title="0.5점" aria-label="0.5점">
+                  <label class="half" for="create-rating1"></label>
+                </div>
+              </div>
+              <span class="rating-picker__value" id="createRatingValue" aria-live="polite">4.0</span>
+            </div>
+          </div>
+          <p class="rating-picker__hint">별을 눌러 절반 단위로 평점을 선택할 수 있어요.</p>
+        </fieldset>
+
+        <div class="review-create__field">
+          <label class="form-label" for="content">후기 내용</label>
+          <textarea id="content"
+                    name="content"
+                    class="form-control"
+                    minlength="5"
+                    maxlength="4000"
+                    rows="4"
+                    placeholder="카페의 분위기, 추천 메뉴, 서비스 등을 자유롭게 남겨주세요."
+                    required></textarea>
+        </div>
+
+        <div class="review-create__footer">
+          <div class="review-create__upload">
+            <label class="form-label" for="createImages">사진 첨부</label>
+            <input id="createImages" type="file" name="images" class="form-control" accept="image/*" multiple data-max-files="10">
+            <p class="upload-hint">최대 10장, 10MB 이하 이미지를 올릴 수 있습니다.</p>
+            <ul id="reviewImageList"
+                class="review-create__file-list"
+                aria-live="polite"
+                aria-label="선택한 이미지 목록"></ul>
+          </div>
+          <button class="btn btn-primary review-submit-btn" type="submit">리뷰 등록</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- 리뷰 검색 및 정렬 -->
+  <section class="card shadow-sm mb-3 review-section review-search">
+    <div class="card-body review-toolbar">
+      <div class="filter-group" role="group">
+        <a class="filter-chip"
+           th:classappend="${sort} == 'likes' ? ' is-active' : ''"
+           th:href="@{/cafes/{id}/reviews(id=${cafe.id}, sort='likes', keyword=${keyword})}">좋아요순</a>
+        <a class="filter-chip"
+           th:classappend="${sort} != 'likes' ? ' is-active' : ''"
+           th:href="@{/cafes/{id}/reviews(id=${cafe.id}, sort='latest', keyword=${keyword})}">최신순</a>
+      </div>
+      <form id="reviewSearchForm" th:action="@{/cafes/{id}/reviews(id=${cafe.id})}" method="get" class="search-bar">
+        <input type="hidden" name="sort" th:value="${sort}">
+        <input type="text" name="keyword" class="form-control review-search-input" placeholder="키워드로 리뷰를 찾아보세요"
+               th:value="${keyword}">
+        <button class="btn btn-outline-secondary btn-sm ms-1 review-search-btn" type="submit">🔍</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- 리뷰 리스트 섹션 (프래그먼트) -->
+  <section id="reviewsSection"
+           th:fragment="section"
+           class="card shadow-sm review-section"
+           th:attr="data-review-section-url=@{|/cafes/${cafe.id}/reviews/section?rpage=${page.number}&rsize=${page.size}&keyword=${keyword != null ? keyword : ''}&sort=${sort}|}">
+    <div class="card-body">
+
+      <div class="section-heading">
+        <div>
+          <h2 class="section-title">리뷰 목록</h2>
+          <p class="section-caption">실제 방문자들의 이야기를 확인해보세요.</p>
+        </div>
+        <div class="text-muted small">
+          페이지 <span th:text="${page.number + 1}">1</span> / <span th:text="${page.totalPages}">1</span>
+        </div>
+      </div>
+
+      <div class="review-list" th:if="${page != null and page.totalElements > 0}">
+        <article th:each="rv : ${page.content}" class="review-card">
+          <header class="review-card__header">
+            <div class="review-card__identity">
+              <div class="avatar" th:text="${rv.user != null && !#strings.isEmpty(rv.user.nickname) ? #strings.substring(rv.user.nickname,0,1) : '게'}">닉</div>
+              <div class="review-card__identity-text">
+                <span class="nickname" th:text="${rv.user != null ? rv.user.nickname : '알 수 없음'}">작성자</span>
+                <div class="meta">
+                  <time th:text="${#temporals.format(rv.createdAt,'yyyy.MM.dd HH:mm')}">2025.09.01 10:30</time>
+                </div>
+              </div>
+            </div>
+            <div class="review-card__meta">
+              <div class="review-card__score"
+                   th:attr="aria-label=${'이 리뷰의 평점 ' + #numbers.formatDecimal(rv.rating,1,1) + '점'}">
+                <div class="rating-badge">
+                  <span class="rating-badge__value" th:text="${#numbers.formatDecimal(rv.rating,1,1)}">4.5</span>
+                  <span class="rating-badge__unit">/5</span>
+                </div>
+                <span class="rating-stars rating-stars--md"
+                      aria-hidden="true"
+                      th:style="'--rating:' + ${#numbers.formatDecimal(rv.rating,1,1)}"></span>
+                <span class="visually-hidden"
+                      th:text="${'별점 ' + #numbers.formatDecimal(rv.rating,1,1) + '점'}">별점</span>
+              </div>
+              <div class="review-card__likes review-like-box"
+                   th:with="isLiked=${likedMap[rv.id] != null ? likedMap[rv.id] : false}"
+                   th:data-review-id="${rv.id}"
+                   th:data-liked="${isLiked}">
+                <button type="button"
+                        class="btn_like review-like-btn"
+                        th:classappend="${isLiked} ? ' on' : ''"
+                        data-label-like="좋아요"
+                        data-label-unlike="좋아요 취소"
+                        th:attr="aria-pressed=${isLiked}, aria-label=${isLiked} ? '좋아요 취소' : '좋아요'">
+                  좋아요
+                </button>
+                <span class="review-like-count" th:text="${likeCountMap[rv.id]}">0</span>
+              </div>
+            </div>
+          </header>
+
+          <div class="review-card__body review-card__content">
+            <p th:text="${#strings.abbreviate(rv.content, 300)}">리뷰 내용</p>
+          </div>
+
+          <div class="review-card__gallery"
+               th:if="${rv.images != null and !rv.images.isEmpty()}">
+            <a th:each="img, iter : ${rv.images}"
+               th:if="${iter.index < 3}"
+               th:href="@{|/reviews/${rv.id}|}"
+               class="gallery-item">
+              <img th:src="@{${img.imageUrl}}" alt="review image">
+            </a>
+            <a th:if="${rv.images.size() > 3}"
+               th:href="@{|/reviews/${rv.id}|}"
+               class="gallery-item gallery-item--more"
+               th:attr="aria-label=${'이미지 ' + (rv.images.size() - 3) + '장 더 보기'}">
+              <span class="more-count"
+                    th:text="'+' + ${rv.images.size() - 3}">+1</span>
+              <span class="visually-hidden"
+                    th:text="${'이미지 ' + (rv.images.size() - 3) + '장 더 보기'}">이미지 더 보기</span>
+            </a>
+          </div>
+
+          <footer class="review-card__footer">
+            <div class="review-card__actions">
+              <a class="btn btn-sm btn-outline-primary" th:href="@{|/reviews/${rv.id}|}">상세보기</a>
+              <a th:if="${me != null && (me.id == rv.user?.id or me.role == 'ADMIN' or me.role == 'ROLE_ADMIN')}" class="btn btn-sm btn-secondary" th:href="@{|/reviews/${rv.id}/edit|}">수정</a>
+              <form th:if="${me != null && (me.id == rv.user?.id or me.role == 'ADMIN' or me.role == 'ROLE_ADMIN')}"
+                    th:action="@{|/reviews/${rv.id}/delete|}"
+                    method="post"
+                    onsubmit="return confirm('정말 삭제하시겠습니까?');">
+                <input type="hidden" th:if="${_csrf}" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                <button type="submit" class="btn btn-sm btn-danger">삭제</button>
+              </form>
+            </div>
+          </footer>
+        </article>
+      </div>
+
+      <nav class="pagination review-pagination" aria-label="페이지 이동" th:if="${page != null and page.totalPages > 1}">
+        <a class="page-btn" th:href="@{/cafes/{id}/reviews/section(id=${cafe.id}, rpage=0, rsize=${page.size}, keyword=${keyword}, sort=${sort})}" aria-label="첫 페이지">«</a>
+        <a class="page-btn" th:if="${page.hasPrevious()}" th:href="@{/cafes/{id}/reviews/section(id=${cafe.id}, rpage=${page.number - 1}, rsize=${page.size}, keyword=${keyword}, sort=${sort})}" aria-label="이전 페이지">이전</a>
+
+        <ol class="page-list" role="list">
+          <li th:each="p : ${#numbers.sequence(0, page.totalPages - 1)}" th:if="${p >= page.number-1 and p <= page.number+1}">
+            <a class="page-link" th:if="${p} != ${page.number}" th:text="${p+1}" th:href="@{/cafes/{id}/reviews/section(id=${cafe.id}, rpage=${p}, rsize=${page.size}, keyword=${keyword}, sort=${sort})}">1</a>
+            <span class="page-link is-current" th:if="${p} == ${page.number}" th:text="${p+1}">1</span>
+          </li>
+        </ol>
+
+        <a class="page-btn" th:if="${page.hasNext()}" th:href="@{/cafes/{id}/reviews/section(id=${cafe.id}, rpage=${page.number + 1}, rsize=${page.size}, keyword=${keyword}, sort=${sort})}" aria-label="다음 페이지">다음</a>
+        <a class="page-btn" th:href="@{/cafes/{id}/reviews/section(id=${cafe.id}, rpage=${page.totalPages - 1}, rsize=${page.size}, keyword=${keyword}, sort=${sort})}" aria-label="마지막 페이지">»</a>
+      </nav>
+
+      <div th:if="${page == null || page.totalElements == 0}" class="empty-state">
+        <strong>아직 첫 리뷰가 없어요.</strong>
+        <p>가장 먼저 경험을 나누고 다른 이용자들에게 분위기를 알려주세요!</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ✅ 레이아웃 삽입 슬롯을 못 쓰더라도 여기서 직접 로드 -->
+  <script th:src="@{/js/review-image-slider.js}" defer></script>
+  <script th:src="@{/js/review-like.js}" defer></script>
+  <script th:src="@{/js/review-list.js}" defer></script>
+  <script th:src="@{/js/reviews-section.js}" defer></script>
+
+  <button type="button"
+          class="floating-back-btn"
+          onclick="window.history.back()">
+    <span class="visually-hidden">이전 페이지로 이동</span>
+    <span aria-hidden="true" class="floating-back-btn__icon">&#8592;</span>
+  </button>
+</div>
+
+</html>

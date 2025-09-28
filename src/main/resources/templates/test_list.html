@@ -1,0 +1,17 @@
+<html layout:decorate="~{layout}">
+<div layout:fragment="content">
+    <table>
+        <thead>
+        <tr>
+            <th>메인 페이지 입니당</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="testList : ${testList}">
+            <td th:text="${testList.id}"></td>
+            <td th:text="${testList.db}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</html>

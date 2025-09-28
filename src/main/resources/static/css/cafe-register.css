@@ -1,0 +1,150 @@
+/* ========== cafe-register.css ========== */
+.regis-container {
+    padding-top: 24px;
+    padding-bottom: 24px;
+    gap: 20px;
+    display: flex; /* 왼쪽/오른쪽 분할 */
+    width: 80rem;
+    margin: 0 auto;
+}
+
+/* 페이지 헤더 (왼쪽 영역) */
+.page-header {
+  width: 35%;
+  margin-right: 20px;
+  border: 0 !important;
+  margin-top: 1px;
+}
+.page-header h1 {
+  margin: 0 0 6px 0;
+  font-size: 24px;
+}
+.page-header p {
+  margin: 0;
+  color: #6b7280;
+  font-size: 14px;
+}
+
+/* 알림 */
+.alert {
+  margin-top: 12px;
+  padding: 12px;
+  border-radius: 10px;
+}
+.alert-success {
+  background: #ecfdf5;
+  color: #065f46;
+}
+.alert-error {
+  background: #fef2f2;
+  color: #991b1b;
+}
+
+/* 폼 카드 (오른쪽 영역) */
+.register-form {
+  width: 65%;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0,0,0,.04);
+}
+
+/* 공통 폼 그룹 */
+.form-group {
+  margin-bottom: 18px;
+}
+.form-group label {
+  display: block;
+  font-weight: 600;
+  font-size: 14px;
+  margin-bottom: 6px;
+  color: #374151;
+}
+.form-group .required {
+  color: #dc2626;
+}
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 14px;
+  font-family: inherit;
+  resize: vertical;
+  background: #fafafa;
+  transition: border .2s ease, box-shadow .2s ease;
+}
+.form-group input:focus,
+.form-group textarea:focus {
+  border-color: var(--brown, #4b3a31);
+  box-shadow: 0 0 0 3px rgba(75,58,49,.15);
+  outline: none;
+  background: #fff;
+}
+
+/* 액션 버튼 */
+.actions {
+  margin-top: 20px;
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+.actions button {
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  border: none;
+}
+.actions .btn-save {
+  background: var(--brown, #4b3a31);
+  color: #fff;
+}
+.actions .btn-save:hover {
+  background: var(--brown-600, #3c2f28);
+}
+.actions .btn-cancel {
+  background: #f3f4f6;
+  color: #374151;
+}
+.actions .btn-cancel:hover {
+  background: #e5e7eb;
+}
+
+/* 안내 카드 */
+.guide {
+  margin-top: 12px;
+  color: #374151;
+}
+.guide ul {
+  margin: 8px 0 0 18px;
+  padding: 0;
+  line-height: 1.6;
+}
+
+/* 사진 미리보기 */
+.photo-preview-grid img,
+.photo-card {
+    max-width: 150px;
+    max-height: 150px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-top : 5px;
+}
+
+.photo-preview-grid,
+.photo-card {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    padding: 5px 0;
+    white-space: nowrap;
+}
+
+.form-group .parking {
+    min-width: 24px;
+}
+

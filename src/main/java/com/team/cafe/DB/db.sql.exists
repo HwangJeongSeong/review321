@@ -1,0 +1,40 @@
+# DB 생성
+DROP DATABASE IF EXISTS cafe_dev;
+CREATE DATABASE cafe_dev;
+USE cafe_dev;
+
+
+# 테이블 구조 보기
+show tables;
+desc bookmark;
+desc cafe;
+desc cafe_keyword;
+desc keyword;
+desc keyword_type;
+desc liked_users;
+desc review;
+desc review_like;
+desc site_user;
+
+
+----------------------------------
+
+#데이터 확인용으로 쓰던 것들
+select * from business;
+select * from cafe_image;
+select * from site_user;
+desc site_user;
+select * from bookmark;
+select * from cafe;
+-- TRUNCATE TABLE cafe;
+-- DELETE FROM cafe_image;
+-- DELETE FROM cafe;
+desc site_user;
+drop table site_user;
+
+select * from keyword;
+select * from cafe_keyword;
+select * from keyword_type;
+desc cafe_keyword;
+desc keyword;
+desc keyword_type;

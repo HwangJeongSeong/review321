@@ -1,0 +1,96 @@
+// 플러그인 설정인대 자바프로잭트에 스프링부트 버전, 라이브러리 버전을 관리해주는 플러그인 버전이 있음
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.3.3'
+	id 'io.spring.dependency-management' version '1.1.6'
+}
+
+// 그룹명, 현재 프로젝트 버전 (현재 개발중이라 스냅샷임 ㅇㅇ), 프로젝트 설명임 이거 굳이 스프링 부트라고 안써도 됨 ㅇㅇ
+group = 'com.team'
+version = '0.0.1-SNAPSHOT'
+description = 'Spring Boot'
+
+// 툴체인인데 자바 컴파일할 때 JDK 버전을 명시, 21버전 쓴다는 말임 여기서 jdk 버전 바꾸면 알아서 jdk 바꿔야함
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(21)
+	}
+}
+
+//컴파일설정인데 컴파일 온리면 컴파일 때만 필요한 라이브러리 설정한다는 말임(실행할 때는 필요 없음) 보통 롬복 같은 라이브러리에 사용됨
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+//라이브러리를 어디서 가져올지 설정하는 거
+//근데 그래들인데 메이븐이 있냐? -> 가장 많이 쓰이는 오픈소스 저장소임!@
+repositories {
+	mavenCentral()
+}
+
+// 말그대로 의존성임 라이브러리, 드라이버, 등 다운받는거임
+dependencies {
+// Web & View
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+
+	// JPA
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+	// MariaDB 드라이버
+	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client:3.4.1'
+
+	// Validation
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+	// Security
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+
+	// WebClient (외부 API 연동용)
+	implementation 'org.springframework:spring-webflux'
+
+	// 파일 유틸(선택) 이미지 업로드 후 썸네일 생성, 크기 조절 쉽게 할 수 있다 해서 넣음
+	implementation 'net.coobird:thumbnailator:0.4.20'
+
+	// Lombok
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+	testCompileOnly 'org.projectlombok:lombok'
+	testAnnotationProcessor 'org.projectlombok:lombok'
+
+	// DevTools(선택)
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+	// Test
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'com.h2database:h2'
+	testImplementation 'org.springframework.security:spring-security-test'
+
+	// 외부 API 연동하려고 넣음 외부 API 호출을 비동기/논블로킹 방식으로 처리 가능하게 함
+	// WebFlux의 네트워크 통신엔진인데 API 쓰려고 넣음
+	implementation 'org.springframework.boot:spring-boot-starter-webflux'
+	implementation 'io.projectreactor.netty:reactor-netty:1.1.19'
+
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:3.3.0'
+	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
+
+	// JavaMailSender
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
+
+	// layout dialect
+	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:3.0.0'
+
+}
+
+// 테스트 프레임워크 인데 주피터노트북이나 주피터랩 방식이라고 생각하면 됨
+tasks.named('test') {
+	useJUnitPlatform()
+}
+
+//bootRun실행시 JVM인자로 추가
+tasks.named('bootRun') {
+	jvmArgs('--enable-native-access=ALL-UNNAMED')
+}

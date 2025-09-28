@@ -1,0 +1,35 @@
+— site_user 테이블
+
+CREATE TABLE IF NOT EXISTS site_user (
+    user_id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    email VARCHAR(100) NOT NULL,
+    nickname VARCHAR(50),
+    role VARCHAR(20) NOT NULL DEFAULT 'USER',
+    last_login DATETIME,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    rrn VARCHAR(13),
+    UNIQUE KEY uk_siteuser_username (username),
+    UNIQUE KEY uk_siteuser_email (email),
+    INDEX idx_siteuser_username (username),
+    INDEX idx_siteuser_email (email)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+— business 테이블
+
+CREATE TABLE IF NOT EXISTS business (
+    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    user_id BIGINT UNSIGNED NOT NULL,
+    company_name VARCHAR(255) NOT NULL,
+    business_number VARCHAR(50) NOT NULL UNIQUE,
+    representative_name VARCHAR(100),
+    representative_phone VARCHAR(50),
+    representative_email VARCHAR(255),
+    address VARCHAR(255),
+    status VARCHAR(20) DEFAULT 'pending',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES site_user(user_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

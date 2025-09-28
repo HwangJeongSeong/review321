@@ -1,0 +1,35 @@
+.container {
+    width: 80rem;
+    padding: 0;
+    margin-top: 24px;
+    margin-bottom: 56px;
+}
+
+
+
+        .form-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        /* 라벨: 왼쪽 끝 정렬, 고정 너비 */
+        .form-row label {
+            width: 100px;
+            text-align: right;
+            margin-right: 100px;
+        }
+
+        /* 입력폼: 고정 너비 200px */
+        .form-row input {
+            width: 200px;
+        }
+
+        /* 메시지: 입력폼 오른쪽 바깥 */
+        .validation-message {
+            margin-left: 10px;
+            font-size: 0.875rem;
+        }
+        .text-danger { color: #dc3545; }
+        .text-success { color: #28a745; }
+        .hidden { display: none; }
