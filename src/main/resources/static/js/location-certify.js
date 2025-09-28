@@ -8,28 +8,37 @@ let cafeMarkerImage;
 let userMarkerImage;
 let lastKnownCoords = null;
 
-const loadingOverlay = document.getElementById('loadingOverlay');
-const cafeLocationElement = document.getElementById('cafeLocation');
-const myLocationElement = document.getElementById('myLocation');
-const distanceInfoElement = document.getElementById('distanceInfo');
+let loadingOverlay = null;
+let cafeLocationElement = null;
+let myLocationElement = null;
+let distanceInfoElement = null;
 
-const DISTANCE_THRESHOLD = 100; // meters
+const DISTANCE_THRESHOLD = 5000; // meters
 const STAY_DURATION = 5000; // milliseconds
 
+function getLoadingOverlay() {
+    if (!loadingOverlay) {
+        loadingOverlay = document.getElementById('loadingOverlay');
+    }
+    return loadingOverlay;
+}
+
 function showLoadingOverlay() {
-    if (!loadingOverlay || loadingOverlay.classList.contains('is-visible')) {
+    const overlay = getLoadingOverlay();
+    if (!overlay || overlay.classList.contains('is-visible')) {
         return;
     }
-    loadingOverlay.classList.add('is-visible');
-    loadingOverlay.setAttribute('aria-hidden', 'false');
+    overlay.classList.add('is-visible');
+    overlay.setAttribute('aria-hidden', 'false');
 }
 
 function hideLoadingOverlay() {
-    if (!loadingOverlay) {
+    const overlay = getLoadingOverlay();
+    if (!overlay) {
         return;
     }
-    loadingOverlay.classList.remove('is-visible');
-    loadingOverlay.setAttribute('aria-hidden', 'true');
+    overlay.classList.remove('is-visible');
+    overlay.setAttribute('aria-hidden', 'true');
 }
 
 function initMap() {
@@ -156,4 +165,10 @@ function loadKakao() {
     }
 }
 
-loadKakao();
+document.addEventListener('DOMContentLoaded', () => {
+    loadingOverlay = document.getElementById('loadingOverlay');
+    cafeLocationElement = document.getElementById('cafeLocation');
+    myLocationElement = document.getElementById('myLocation');
+    distanceInfoElement = document.getElementById('distanceInfo');
+    loadKakao();
+});
