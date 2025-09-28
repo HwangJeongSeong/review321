@@ -4,6 +4,7 @@ let cafeLat, cafeLng;
 let watchId;
 let stayTimer = null;
 let certified = false;
+let isWithinThreshold = false;
 let cafeMarkerImage;
 let userMarkerImage;
 let lastKnownCoords = null;
@@ -15,6 +16,7 @@ let distanceInfoElement = null;
 
 const DISTANCE_THRESHOLD = 5000; // meters
 const STAY_DURATION = 5000; // milliseconds
+const THRESHOLD_BUFFER = 50; // meters of tolerance when exiting the zone
 
 function getLoadingOverlay() {
     if (!loadingOverlay) {
@@ -117,6 +119,9 @@ function evaluateDistanceAndCertification() {
     }
 
     if (dist <= DISTANCE_THRESHOLD) {
+        if (!isWithinThreshold) {
+            isWithinThreshold = true;
+        }
         showLoadingOverlay();
         if (!stayTimer) {
             stayTimer = setTimeout(() => {
@@ -124,12 +129,21 @@ function evaluateDistanceAndCertification() {
                 onCertificationSuccess();
             }, STAY_DURATION);
         }
-    } else {
-        hideLoadingOverlay();
-        if (stayTimer) {
-            clearTimeout(stayTimer);
-            stayTimer = null;
-        }
+        return;
+    }
+
+    if (isWithinThreshold && dist <= DISTANCE_THRESHOLD + THRESHOLD_BUFFER) {
+        showLoadingOverlay();
+        return;
+    }
+
+    if (isWithinThreshold) {
+        isWithinThreshold = false;
+    }
+    hideLoadingOverlay();
+    if (stayTimer) {
+        clearTimeout(stayTimer);
+        stayTimer = null;
     }
 }
 
@@ -146,6 +160,8 @@ function calculateDistance(lat1, lon1, lat2, lon2) {
 }
 
 function onCertificationSuccess() {
+    stayTimer = null;
+    isWithinThreshold = false;
     hideLoadingOverlay();
     alert('위치 인증이 성공했습니다.');
     if (watchId) {
