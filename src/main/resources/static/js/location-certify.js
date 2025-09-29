@@ -248,7 +248,12 @@ function loadKakao() {
     }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+function initializeLocationPage() {
+    if (loadingOverlay) {
+        // 이미 초기화가 수행된 경우 다시 실행하지 않는다.
+        return;
+    }
+
     loadingOverlay = document.getElementById('loadingOverlay');
     loadingOverlayTitleElement = document.getElementById('loadingOverlayTitle');
     loadingOverlayMessageElement = document.getElementById('loadingOverlayMessage');
@@ -256,6 +261,19 @@ document.addEventListener('DOMContentLoaded', () => {
     myLocationElement = document.getElementById('myLocation');
     distanceInfoElement = document.getElementById('distanceInfo');
     locationContentElement = document.getElementById('locationContent');
+
+    // 필수 엘리먼트가 누락된 경우에는 더 이상 진행하지 않는다.
+    if (!loadingOverlay || !loadingOverlayTitleElement || !loadingOverlayMessageElement) {
+        console.warn('위치 인증 로딩 오버레이 요소를 찾을 수 없습니다.');
+        return;
+    }
+
     showLoadingOverlay(OverlayStates.INITIAL);
     loadKakao();
-});
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeLocationPage);
+} else {
+    initializeLocationPage();
+}
