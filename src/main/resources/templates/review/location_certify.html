@@ -235,6 +235,15 @@
             animation: barMove 3.6s ease-in-out infinite;
         }
 
+        .loading-overlay[data-state="error"] {
+            --accent: #d45d4c;
+            --accent-2: #e28743;
+        }
+
+        .loading-overlay[data-state="error"] .progress {
+            display: none;
+        }
+
         @keyframes barMove {
             0% {
                 width: 0%;
@@ -322,8 +331,8 @@
             </svg>
         </div>
 
-        <h1>핸드드립 중…</h1>
-        <p>따끈한 화면을 내리는 중이에요 ☕️</p>
+        <h1 id="loadingOverlayTitle">핸드드립 중…</h1>
+        <p id="loadingOverlayMessage">따끈한 화면을 내리는 중이에요 ☕️</p>
 
         <div class="progress" aria-hidden="true"><div class="bar"></div></div>
     </div>
