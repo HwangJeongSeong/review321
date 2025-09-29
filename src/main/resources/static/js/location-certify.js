@@ -33,9 +33,6 @@ function showLoadingOverlay() {
     if (!overlay) {
         return;
     }
-    if (locationContentElement) {
-        locationContentElement.style.display = 'none';
-    }
     if (overlay.classList.contains('is-visible')) {
         return;
     }
@@ -52,9 +49,6 @@ function hideLoadingOverlay() {
     overlay.classList.remove('is-visible');
     overlay.setAttribute('aria-hidden', 'true');
     overlay.style.display = 'none';
-    if (locationContentElement) {
-        locationContentElement.style.display = '';
-    }
 }
 
 function initMap() {
@@ -125,7 +119,7 @@ function handleError(err) {
 
 function evaluateDistanceAndCertification() {
     if (!hasCafeCoords || !hasUserCoords || !lastKnownCoords || typeof cafeLat !== 'number' || typeof cafeLng !== 'number') {
-        showLoadingOverlay();
+        hideLoadingOverlay();
         return;
     }
 
@@ -144,9 +138,10 @@ function evaluateDistanceAndCertification() {
     if (roundedDist <= DISTANCE_THRESHOLD) {
         if (!isWithinThreshold) {
             isWithinThreshold = true;
-        }
-        showLoadingOverlay();
-        if (!stayTimer) {
+            showLoadingOverlay();
+            if (stayTimer) {
+                clearTimeout(stayTimer);
+            }
             stayTimer = setTimeout(() => {
                 certified = true;
                 onCertificationSuccess();
@@ -156,7 +151,6 @@ function evaluateDistanceAndCertification() {
     }
 
     if (isWithinThreshold && roundedDist <= DISTANCE_THRESHOLD + THRESHOLD_BUFFER) {
-        showLoadingOverlay();
         return;
     }
 
@@ -210,6 +204,5 @@ document.addEventListener('DOMContentLoaded', () => {
     myLocationElement = document.getElementById('myLocation');
     distanceInfoElement = document.getElementById('distanceInfo');
     locationContentElement = document.getElementById('locationContent');
-    showLoadingOverlay();
     loadKakao();
 });
