@@ -131,16 +131,17 @@ function evaluateDistanceAndCertification() {
 
     const { lat, lng } = lastKnownCoords;
     const dist = calculateDistance(lat, lng, cafeLat, cafeLng);
+    const roundedDist = Math.round(dist); // keep comparisons aligned with the value shown to the user
 
     if (distanceInfoElement) {
-        distanceInfoElement.textContent = '카페까지 거리: ' + Math.round(dist) + 'm';
+        distanceInfoElement.textContent = '카페까지 거리: ' + roundedDist + 'm';
     }
 
     if (certified) {
         return;
     }
 
-    if (dist <= DISTANCE_THRESHOLD) {
+    if (roundedDist <= DISTANCE_THRESHOLD) {
         if (!isWithinThreshold) {
             isWithinThreshold = true;
         }
@@ -154,7 +155,7 @@ function evaluateDistanceAndCertification() {
         return;
     }
 
-    if (isWithinThreshold && dist <= DISTANCE_THRESHOLD + THRESHOLD_BUFFER) {
+    if (isWithinThreshold && roundedDist <= DISTANCE_THRESHOLD + THRESHOLD_BUFFER) {
         showLoadingOverlay();
         return;
     }
