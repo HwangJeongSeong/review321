@@ -275,14 +275,14 @@
 
           <footer class="review-card__footer">
             <div class="review-card__actions">
-              <a class="btn btn-sm btn-outline-primary" th:href="@{|/reviews/${rv.id}|}">상세보기</a>
-              <a th:if="${me != null && (me.id == rv.user?.id or me.role == 'ADMIN' or me.role == 'ROLE_ADMIN')}" class="btn btn-sm btn-secondary" th:href="@{|/reviews/${rv.id}/edit|}">수정</a>
+              <a class="btn btn-sm btn-primary" th:href="@{|/reviews/${rv.id}|}">상세보기</a>
+              <a th:if="${me != null && (me.id == rv.user?.id or me.role == 'ADMIN' or me.role == 'ROLE_ADMIN')}" class="btn btn-sm btn-secondary" th:href="@{|/reviews/${rv.id}/edit|}">수정하기</a>
               <form th:if="${me != null && (me.id == rv.user?.id or me.role == 'ADMIN' or me.role == 'ROLE_ADMIN')}"
                     th:action="@{|/reviews/${rv.id}/delete|}"
                     method="post"
                     onsubmit="return confirm('정말 삭제하시겠습니까?');">
                 <input type="hidden" th:if="${_csrf}" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
-                <button type="submit" class="btn btn-sm btn-danger">삭제</button>
+                <button type="submit" class="btn btn-sm btn-danger">삭제하기</button>
               </form>
             </div>
           </footer>
