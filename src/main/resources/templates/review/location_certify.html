@@ -10,6 +10,405 @@
         :root {
             color-scheme: light dark;
         }
+        .location-certify {
+            padding-bottom: 64px;
+        }
+
+        .location-certify__header {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .location-certify__subtitle {
+            font-size: 0.95rem;
+            color: rgba(17, 24, 39, 0.7);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .location-certify__subtitle {
+                color: rgba(229, 231, 235, 0.75);
+            }
+        }
+
+        .location-certify__grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1.65fr) minmax(0, 1fr);
+            gap: clamp(1.25rem, 3vw, 2.5rem);
+            align-items: flex-start;
+        }
+
+        .location-certify__map {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .location-certify__map-canvas {
+            width: 100%;
+            height: clamp(320px, 60vh, 560px);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 18px 48px rgba(0, 0, 0, 0.14);
+        }
+
+        .location-certify__map-callout {
+            border-radius: 16px;
+            padding: 20px 22px;
+            background: linear-gradient(135deg, rgba(139, 94, 52, 0.1), rgba(193, 133, 85, 0.08));
+            border: 1px solid rgba(139, 94, 52, 0.25);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .location-certify__map-callout {
+                background: linear-gradient(135deg, rgba(192, 138, 83, 0.12), rgba(110, 76, 46, 0.18));
+                border-color: rgba(255, 255, 255, 0.08);
+            }
+        }
+
+        .location-certify__map-callout-title {
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 0.35rem;
+            color: inherit;
+        }
+
+        .location-certify__map-callout-list {
+            margin: 0;
+            padding-left: 1.1rem;
+            display: grid;
+            gap: 0.45rem;
+            font-size: 0.9rem;
+        }
+
+        .location-certify__panel {
+            position: sticky;
+            top: 96px;
+        }
+
+        .location-certify-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            padding: clamp(1.5rem, 3vw, 2.25rem);
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 24px;
+            box-shadow: 0 28px 60px rgba(15, 23, 42, 0.16);
+            border: 1px solid rgba(15, 23, 42, 0.06);
+            backdrop-filter: blur(14px) saturate(130%);
+            -webkit-backdrop-filter: blur(14px) saturate(130%);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .location-certify-form {
+                background: rgba(17, 24, 39, 0.75);
+                border-color: rgba(255, 255, 255, 0.08);
+                box-shadow: 0 24px 60px rgba(0, 0, 0, 0.38);
+            }
+        }
+
+        .location-certify-form__section {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .location-certify-form__section > h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .location-certify-form__status-badge {
+            align-self: flex-start;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            padding: 0.35rem 0.75rem;
+            border-radius: 999px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            letter-spacing: 0.01em;
+            transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .location-certify-form__status-badge::before {
+            content: '';
+            width: 0.65rem;
+            height: 0.65rem;
+            border-radius: 50%;
+            background: currentColor;
+            opacity: 0.55;
+        }
+
+        .location-certify-form__status-badge--info {
+            background: rgba(37, 99, 235, 0.12);
+            color: #1d4ed8;
+            box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.18);
+        }
+
+        .location-certify-form__status-badge--success {
+            background: rgba(22, 163, 74, 0.14);
+            color: #15803d;
+            box-shadow: 0 0 0 1px rgba(22, 163, 74, 0.16);
+        }
+
+        .location-certify-form__status-badge--warning {
+            background: rgba(234, 179, 8, 0.18);
+            color: #a16207;
+            box-shadow: 0 0 0 1px rgba(234, 179, 8, 0.22);
+        }
+
+        .location-certify-form__status-badge--danger {
+            background: rgba(220, 38, 38, 0.18);
+            color: #b91c1c;
+            box-shadow: 0 0 0 1px rgba(220, 38, 38, 0.26);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .location-certify-form__status-badge--info {
+                background: rgba(96, 165, 250, 0.22);
+                color: #60a5fa;
+            }
+
+            .location-certify-form__status-badge--success {
+                background: rgba(74, 222, 128, 0.22);
+                color: #4ade80;
+            }
+
+            .location-certify-form__status-badge--warning {
+                background: rgba(253, 224, 71, 0.18);
+                color: #facc15;
+            }
+
+            .location-certify-form__status-badge--danger {
+                background: rgba(248, 113, 113, 0.18);
+                color: #fca5a5;
+            }
+        }
+
+        .location-certify-form__status-message {
+            margin: 0;
+            font-size: 0.95rem;
+            color: rgba(17, 24, 39, 0.75);
+            line-height: 1.55;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .location-certify-form__status-message {
+                color: rgba(229, 231, 235, 0.78);
+            }
+        }
+
+        .location-certify-form__stay-indicator {
+            width: 100%;
+            height: 10px;
+            border-radius: 999px;
+            background: rgba(15, 23, 42, 0.08);
+            overflow: hidden;
+            display: none;
+        }
+
+        .location-certify-form__stay-indicator.is-visible {
+            display: block;
+        }
+
+        .location-certify-form__stay-indicator-bar {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, #8b5e34, #c08a53, #f5c188);
+            transform: scaleX(0);
+            transform-origin: left center;
+            transition: transform var(--stay-duration, 5s) ease;
+        }
+
+        .location-certify-form__stay-indicator-bar.is-filled {
+            transform: scaleX(1);
+        }
+
+        .location-certify-form__stay-indicator-bar.is-complete {
+            box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.2);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .location-certify-form__stay-indicator {
+                background: rgba(255, 255, 255, 0.12);
+            }
+        }
+
+        .location-certify-form__details {
+            margin: 0;
+            display: grid;
+            gap: 0.9rem;
+        }
+
+        .location-certify-form__details > div {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .location-certify-form__details dt {
+            font-weight: 600;
+            font-size: 0.85rem;
+            letter-spacing: 0.02em;
+            text-transform: uppercase;
+            color: rgba(17, 24, 39, 0.72);
+        }
+
+        .location-certify-form__details dd {
+            margin: 0;
+            font-size: 0.96rem;
+            font-weight: 500;
+            color: rgba(17, 24, 39, 0.88);
+            word-break: break-word;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .location-certify-form__details dt {
+                color: rgba(229, 231, 235, 0.6);
+            }
+
+            .location-certify-form__details dd {
+                color: rgba(229, 231, 235, 0.92);
+            }
+        }
+
+        .location-certify-form__guide {
+            margin: 0;
+            display: grid;
+            gap: 0.55rem;
+            font-size: 0.93rem;
+            color: rgba(17, 24, 39, 0.72);
+            padding-left: 1rem;
+        }
+
+        .location-certify-form__guide > li::marker {
+            font-weight: 600;
+            color: #8b5e34;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .location-certify-form__guide {
+                color: rgba(229, 231, 235, 0.7);
+            }
+
+            .location-certify-form__guide > li::marker {
+                color: #f0ab57;
+            }
+        }
+
+        .location-certify-form__agreements {
+            display: grid;
+            gap: 0.65rem;
+        }
+
+        .location-certify-form__checkbox {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            align-items: start;
+            gap: 0.6rem;
+            padding: 0.65rem 0.75rem;
+            border-radius: 16px;
+            background: rgba(15, 23, 42, 0.04);
+            border: 1px solid rgba(15, 23, 42, 0.06);
+        }
+
+        .location-certify-form__checkbox label {
+            cursor: pointer;
+        }
+
+        .location-certify-form__checkbox-text {
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .location-certify-form__checkbox {
+                background: rgba(255, 255, 255, 0.06);
+                border-color: rgba(255, 255, 255, 0.08);
+            }
+        }
+
+        .location-certify-form__actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .location-certify-form__action {
+            flex: 1 1 160px;
+            border-radius: 14px;
+            padding: 0.75rem 1.25rem;
+            font-weight: 600;
+            box-shadow: 0 16px 30px rgba(139, 94, 52, 0.22);
+            border: none;
+        }
+
+        .location-certify-form__action.btn-outline-secondary {
+            border: 1px solid rgba(17, 24, 39, 0.2);
+            background: transparent;
+            color: inherit;
+            box-shadow: none;
+        }
+
+        .location-certify-form__action[disabled] {
+            cursor: not-allowed;
+            opacity: 0.55;
+            box-shadow: none;
+        }
+
+        .location-certify-form__footnote {
+            margin: 0;
+            font-size: 0.85rem;
+            color: rgba(17, 24, 39, 0.6);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .location-certify-form__footnote {
+                color: rgba(229, 231, 235, 0.65);
+            }
+        }
+
+        @media (max-width: 1200px) {
+            .location-certify__grid {
+                grid-template-columns: 1fr;
+            }
+
+            .location-certify__panel {
+                position: static;
+            }
+
+            .location-certify__map-canvas {
+                height: clamp(280px, 45vh, 420px);
+            }
+        }
+
+        @media (max-width: 640px) {
+            .location-certify {
+                padding-bottom: 48px;
+            }
+
+            .location-certify-form {
+                padding: 1.25rem 1.1rem 1.5rem;
+                border-radius: 20px;
+            }
+
+            .location-certify-form__actions {
+                flex-direction: column;
+            }
+
+            .location-certify-form__action {
+                width: 100%;
+            }
+
+            .location-certify__map-callout {
+                padding: 16px 18px;
+            }
+        }
+
         .floating-back-btn {
             position: fixed;
             right: 24px;
@@ -269,12 +668,95 @@
 </th:block>
 
 <div layout:fragment="content" class="container mt-4" id="locationContent">
-    <h2 class="h5 mb-3" th:text="|${cafe.name} 위치 인증|">위치 인증</h2>
-    <div id="map" style="width:100%;height:70vh;"></div>
-    <div class="mt-2 text-muted small">
-        <p id="cafeLocation"></p>
-        <p id="myLocation"></p>
-        <p id="distanceInfo"></p>
+    <div class="location-certify">
+        <header class="location-certify__header">
+            <h2 class="h5 mb-0" th:text="|${cafe.name} 위치 인증|">위치 인증</h2>
+            <p class="location-certify__subtitle" id="locationCertifyDescription">
+                지도에서 카페 반경 5km 이내로 이동하면 5초 뒤 자동으로 인증이 완료돼요.
+            </p>
+        </header>
+
+        <div class="location-certify__grid">
+            <section class="location-certify__map" aria-label="위치 인증 지도">
+                <div id="map" class="location-certify__map-canvas" role="img" aria-live="polite"
+                     aria-label="카페 위치와 현재 위치 지도"></div>
+
+                <div class="location-certify__map-callout" aria-live="polite">
+                    <h3 class="location-certify__map-callout-title">인증을 빠르게 완료하는 방법</h3>
+                    <ol class="location-certify__map-callout-list">
+                        <li>브라우저의 위치 접근 권한을 허용해 주세요.</li>
+                        <li>지도에서 표시되는 카페 마커 반경 5km 안쪽에 머물러 주세요.</li>
+                        <li>인증 진행 상태는 우측 패널에서 실시간으로 확인할 수 있어요.</li>
+                    </ol>
+                </div>
+            </section>
+
+            <aside class="location-certify__panel" aria-labelledby="locationCertifyDescription">
+                <form class="location-certify-form" novalidate>
+                    <section class="location-certify-form__section" aria-live="polite">
+                        <h3 class="visually-hidden">인증 진행 상태</h3>
+                        <span id="statusBadge" class="location-certify-form__status-badge location-certify-form__status-badge--info"
+                              role="status">위치 확인 중</span>
+                        <p id="certifyStatusMessage" class="location-certify-form__status-message">
+                            카페 위치와 내 위치를 불러오는 중이에요. 잠시만 기다려 주세요!
+                        </p>
+                        <div class="location-certify-form__stay-indicator" id="stayIndicator" aria-hidden="true">
+                            <div class="location-certify-form__stay-indicator-bar" id="stayIndicatorBar"></div>
+                        </div>
+                    </section>
+
+                    <dl class="location-certify-form__details">
+                        <div>
+                            <dt>카페 위치</dt>
+                            <dd id="cafeLocation" aria-live="polite">정보를 불러오는 중…</dd>
+                        </div>
+                        <div>
+                            <dt>내 위치</dt>
+                            <dd id="myLocation" aria-live="polite">위치 정보를 확인하는 중…</dd>
+                        </div>
+                        <div>
+                            <dt>카페까지 거리</dt>
+                            <dd><span id="distanceInfo" aria-live="polite">-</span></dd>
+                        </div>
+                    </dl>
+
+                    <section class="location-certify-form__section">
+                        <h3 class="visually-hidden">위치 인증 안내</h3>
+                        <ol class="location-certify-form__guide">
+                            <li>현재 위치가 정확히 표시되지 않는다면 우측 하단 버튼으로 재시도해 주세요.</li>
+                            <li>GPS 신호가 약한 실내에서는 잠시 외부로 이동하면 인증이 빨라져요.</li>
+                            <li>인증이 완료되면 리뷰 작성 페이지로 자동 이동합니다.</li>
+                        </ol>
+                    </section>
+
+                    <div class="location-certify-form__agreements">
+                        <div class="location-certify-form__checkbox">
+                            <input type="checkbox" id="infoAgreement" checked disabled aria-disabled="true" />
+                            <label for="infoAgreement" class="location-certify-form__checkbox-text">
+                                위치 정보는 인증 용도로만 일시적으로 사용됩니다.
+                            </label>
+                        </div>
+                        <div class="location-certify-form__checkbox">
+                            <input type="checkbox" id="consentAgreement" />
+                            <label for="consentAgreement" class="location-certify-form__checkbox-text">
+                                위치 정보 제공에 동의하고 인증 절차를 진행합니다.
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="location-certify-form__actions">
+                        <button type="button" class="btn btn-outline-secondary location-certify-form__action"
+                                id="retryLocationBtn">위치 다시 확인</button>
+                        <button type="button" class="btn btn-primary location-certify-form__action" id="certifyProceedBtn"
+                                disabled>인증 대기 중</button>
+                    </div>
+
+                    <p class="location-certify-form__footnote">
+                        위치 인증이 완료되면 잠시 후 자동으로 리뷰 작성 페이지로 이동합니다.
+                    </p>
+                </form>
+            </aside>
+        </div>
     </div>
 
     <button type="button"
